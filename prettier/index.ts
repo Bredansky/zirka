@@ -1,6 +1,7 @@
-import { type Config } from "prettier";
+// Can't be properly typed due to https://prettier.io/docs/configuration#typescript-configuration-files
 
-const config: Config = {
+// eslint-disable-next-line import/no-default-export -- Prettier config requires default export
+export default {
   endOfLine: "lf",
   tabWidth: 2,
   printWidth: 120,
@@ -9,6 +10,3 @@ const config: Config = {
   plugins: ["prettier-plugin-packagejson"],
   trailingComma: "all",
 };
-
-// eslint-disable-next-line import/no-default-export -- Prettier config requires default export
-export default config;
