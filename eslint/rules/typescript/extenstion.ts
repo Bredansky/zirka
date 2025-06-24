@@ -32,5 +32,5 @@ export const typescriptExtensionRules: Linter.RulesRecord = {
    *
    * 🚫 Not fixable - https://typescript-eslint.io/rules/no-useless-constructor/
    */
-  "@typescript-eslint/no-useless-constructor": "error"
+  "@typescript-eslint/no-useless-constructor": "error",
 };

@@ -4,10 +4,10 @@ import globals from "globals";
 
 export const unicornConfig = defineConfig({
   languageOptions: {
-    globals: globals.builtin
+    globals: globals.builtin,
   },
   plugins: {
-    unicorn: eslintPluginUnicorn
+    unicorn: eslintPluginUnicorn,
   },
   rules: {
     /**
@@ -18,14 +18,14 @@ export const unicornConfig = defineConfig({
     "unicorn/filename-case": [
       "error",
       {
-        case: "kebabCase"
-      }
+        case: "kebabCase",
+      },
     ],
     /**
      * Require using the `node:` protocol when importing Node.js built-in modules.
      *
      * 🔧 Fixable - https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-node-protocol.md
      */
-    "unicorn/prefer-node-protocol": "warn"
-  }
+    "unicorn/prefer-node-protocol": "warn",
+  },
 });

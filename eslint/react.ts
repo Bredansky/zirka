@@ -5,17 +5,17 @@ import jsxA11y from "eslint-plugin-jsx-a11y";
 import { reactRules } from "./rules/react.ts";
 import { jsxA11yRules } from "./rules/jsx-a11y.ts";
 
-export default defineConfig([
+export const reactConfig = defineConfig([
   {
     plugins: {
       react,
       "react-hooks": reactHooks,
-      "jsx-a11y": jsxA11y
+      "jsx-a11y": jsxA11y,
     },
     settings: {
       react: {
-        version: "detect"
-      }
+        version: "detect",
+      },
     },
     rules: {
       ...react.configs.recommended.rules,
@@ -23,7 +23,7 @@ export default defineConfig([
       ...jsxA11y.configs.recommended.rules,
 
       ...reactRules,
-      ...jsxA11yRules
-    }
-  }
+      ...jsxA11yRules,
+    },
+  },
 ]);

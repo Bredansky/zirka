@@ -8,5 +8,5 @@ export const typescriptImportRules: Linter.RulesRecord = {
   "import/default": ["off"],
   "import/export": ["off"],
   "import/namespace": ["off"],
-  "import/no-unresolved": ["off"]
+  "import/no-unresolved": ["off"],
 };

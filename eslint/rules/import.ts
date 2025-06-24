@@ -26,6 +26,12 @@ export const importRules: Linter.RulesRecord = {
    */
   "import/no-cycle": "error",
   /**
+   * Disallow default exports.
+   *
+   * 🚫 Not fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-default-export.md
+   */
+  "import/no-default-export": "error",
+  /**
    * Disallow the use of extraneous packages.
    *
    * 🚫 Not fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-extraneous-dependencies.md
@@ -69,9 +75,9 @@ export const importRules: Linter.RulesRecord = {
         "internal", // Aliased modules
         "parent", // Relative parent
         "sibling", // Relative sibling
-        "index" // Relative index
+        "index", // Relative index
       ],
-      "newlines-between": "never"
-    }
-  ]
+      "newlines-between": "never",
+    },
+  ],
 };

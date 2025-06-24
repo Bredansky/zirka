@@ -31,5 +31,5 @@ export const possibleErrorsRules: Linter.RulesRecord = {
    *
    * 🚫 Not fixable - https://eslint.org/docs/rules/no-unreachable-loop
    */
-  "no-unreachable-loop": "error"
+  "no-unreachable-loop": "error",
 };

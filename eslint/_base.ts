@@ -13,7 +13,7 @@ import { commentsConfig } from "./rules/comments.js";
 import { unicornConfig } from "./rules/unicorn.js";
 import { variablesRules } from "./rules/variables.js";
 
-export default defineConfig([
+export const baseConfig = defineConfig([
   // Core recommended ESLint rules
   eslintJavascriptPlugin.configs.recommended,
 
@@ -37,8 +37,8 @@ export default defineConfig([
       ...importRules,
       ...possibleErrorsRules,
       ...stylisticRules,
-      ...variablesRules
-    }
+      ...variablesRules,
+    },
   },
 
   {
@@ -47,23 +47,23 @@ export default defineConfig([
       ecmaVersion: ECMA_VERSION,
 
       // Use ES modules rather than CommonJS
-      sourceType: "module"
+      sourceType: "module",
     },
 
     // Import-related configuration
     settings: {
       "import/resolver": {
-        node: true
-      }
+        node: true,
+      },
     },
 
     linterOptions: {
       // Warn if there are unnecessary `eslint-disable` comments
-      reportUnusedDisableDirectives: true
+      reportUnusedDisableDirectives: true,
     },
 
     // This un-ignores dotfiles like `.eslintrc.js`, which are usually ignored by default
-    ignores: ["!.*.js", "!.*.ts"]
+    ignores: ["!.*.js", "!.*.ts"],
   },
 
   // Override for JavaScript files (optional but useful)
@@ -80,9 +80,9 @@ export default defineConfig([
 
         // Inline Babel options for this parser instance
         babelOptions: {
-          presets: ["@babel/preset-env"] // Transpile to ES5 based on target environments
-        }
-      }
-    }
-  }
+          presets: ["@babel/preset-env"], // Transpile to ES5 based on target environments
+        },
+      },
+    },
+  },
 ]);

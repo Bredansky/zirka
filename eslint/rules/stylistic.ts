@@ -11,8 +11,8 @@ export const stylisticRules: Linter.RulesRecord = {
     {
       allow: ["^UNSAFE_"],
       ignoreDestructuring: false,
-      properties: "never"
-    }
+      properties: "never",
+    },
   ],
   /**
    * Require function expressions to have a name.
@@ -74,5 +74,5 @@ export const stylisticRules: Linter.RulesRecord = {
    *
    * 🔧 Fixable - https://eslint.org/docs/rules/prefer-object-spread
    */
-  "prefer-object-spread": "warn"
+  "prefer-object-spread": "warn",
 };

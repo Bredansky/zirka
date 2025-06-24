@@ -6,7 +6,7 @@ const disabledRules: Linter.RulesRecord = {
   "react/prop-types": ["off"],
 
   // Disable requiring React to be imported, as this is no longer required.
-  "react/react-in-jsx-scope": ["off"]
+  "react/react-in-jsx-scope": ["off"],
 };
 
 export const reactRules: Linter.RulesRecord = {
@@ -72,8 +72,8 @@ export const reactRules: Linter.RulesRecord = {
   "react/jsx-no-target-blank": [
     "error",
     {
-      allowReferrer: true
-    }
+      allowReferrer: true,
+    },
   ],
 
   /**
@@ -109,5 +109,5 @@ export const reactRules: Linter.RulesRecord = {
    *
    * 🔧 Fixable - https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/self-closing-comp.md
    */
-  "react/self-closing-comp": ["warn"]
+  "react/self-closing-comp": ["warn"],
 };

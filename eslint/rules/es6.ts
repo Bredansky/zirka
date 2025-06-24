@@ -61,5 +61,5 @@ export const es6Rules: Linter.RulesRecord = {
    *
    * 🚫 Not fixable - https://eslint.org/docs/rules/symbol-description
    */
-  "symbol-description": "error"
+  "symbol-description": "error",
 };

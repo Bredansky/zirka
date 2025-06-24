@@ -17,8 +17,8 @@ export const typescriptRules: Linter.RulesRecord = {
     {
       disallowTypeAnnotations: true,
       fixStyle: "inline-type-imports",
-      prefer: "type-imports"
-    }
+      prefer: "type-imports",
+    },
   ],
   /**
    * Require explicit return types on functions and class methods.
@@ -46,17 +46,17 @@ export const typescriptRules: Linter.RulesRecord = {
     // Anything type-like should be written in PascalCase.
     {
       format: ["PascalCase"],
-      selector: ["typeLike", "enumMember"]
+      selector: ["typeLike", "enumMember"],
     },
     // Interfaces cannot be prefixed with `I`, or have restricted names.
     {
       custom: {
         match: false,
-        regex: "^I[A-Z]|^(Interface|Props|State)$"
+        regex: "^I[A-Z]|^(Interface|Props|State)$",
       },
       format: ["PascalCase"],
-      selector: "interface"
-    }
+      selector: "interface",
+    },
   ],
   /**
    * Disallow members of unions and intersections that do nothing or override type information.
@@ -89,5 +89,5 @@ export const typescriptRules: Linter.RulesRecord = {
    *
    * 🚫 Not fixable - https://typescript-eslint.io/rules/switch-exhaustiveness-check/
    */
-  "@typescript-eslint/switch-exhaustiveness-check": "error"
+  "@typescript-eslint/switch-exhaustiveness-check": "error",
 };

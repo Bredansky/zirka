@@ -7,8 +7,8 @@ export const noUnusedVarsConfig: Linter.RuleEntry = [
     argsIgnorePattern: "^_",
     ignoreRestSiblings: false,
     vars: "all",
-    varsIgnorePattern: "^_"
-  }
+    varsIgnorePattern: "^_",
+  },
 ];
 
 export const variablesRules: Linter.RulesRecord = {
@@ -28,5 +28,5 @@ export const variablesRules: Linter.RulesRecord = {
    * Disallow unused variables.
    *
    * 🚫 Not fixable - https://eslint.org/docs/rules/no-unused-vars
-   */ "no-unused-vars": noUnusedVarsConfig
+   */ "no-unused-vars": noUnusedVarsConfig,
 };

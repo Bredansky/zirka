@@ -10,26 +10,32 @@ const babelOptions = {
     } catch {
       return [];
     }
-  })()
+  })(),
 };
 
-export default defineConfig([
+export const nextConfig = defineConfig([
   {
     plugins: {
-      "@next/next": nextPlugin
+      "@next/next": nextPlugin,
     },
     rules: {
       ...nextPlugin.configs.recommended.rules,
-      ...nextPlugin.configs["core-web-vitals"].rules
-    }
+      ...nextPlugin.configs["core-web-vitals"].rules,
+    },
+  },
+  {
+    files: ["pages/*", "pages/api/*"],
+    rules: {
+      "import/no-default-export": "off",
+    },
   },
   {
     files: JAVASCRIPT_FILES,
     languageOptions: {
       parserOptions: {
         ...babelOptions,
-        requireConfigFile: false
-      }
-    }
-  }
+        requireConfigFile: false,
+      },
+    },
+  },
 ]);
