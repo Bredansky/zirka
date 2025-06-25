@@ -24,7 +24,7 @@ export const nextConfig = defineConfig([
     },
   },
   {
-    files: ["pages/*", "pages/api/*"],
+    files: ["**/page.tsx", "**/route.ts"],
     rules: {
       "import/no-default-export": "off",
     },
