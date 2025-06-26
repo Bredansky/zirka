@@ -7,7 +7,7 @@
     "noUncheckedIndexedAccess": true,
     "skipLibCheck": true,
     "strict": true,
-    "lib": ["ESNext"],
+    "lib": ["dom", "ESNext"],
     "module": "NodeNext",
     "target": "esnext",
     "moduleResolution": "nodenext",
