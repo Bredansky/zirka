@@ -1,13 +1,13 @@
 {
   "name": "@bredansky/styleguide",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "",
   "license": "ISC",
   "author": "",
   "type": "module",
   "exports": {
     "./eslint/*": "./eslint/*.ts",
-    "./prettier": "./prettier/index.ts",
+    "./prettier": "./prettier/index.js",
     "./typescript": "./typescript/base.json"
   },
   "files": [
@@ -23,7 +23,7 @@
     "prettier": "prettier . --check",
     "typecheck": "tsc --noEmit"
   },
-  "prettier": "./prettier/index.ts",
+  "prettier": "./prettier/index.js",
   "dependencies": {
     "@babel/eslint-parser": "^7.27.1",
     "@babel/preset-env": "^7.27.2",
