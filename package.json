@@ -1,12 +1,12 @@
 {
   "name": "@bredansky/styleguide",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "",
   "license": "ISC",
   "author": "",
   "type": "module",
   "exports": {
-    "./eslint/*": "./eslint/*.ts",
+    "./eslint": "./eslint/index.ts",
     "./prettier": "./prettier/index.js",
     "./typescript": "./typescript/base.json"
   },
@@ -17,17 +17,21 @@
     "types"
   ],
   "scripts": {
-    "check": "npm run lint && npm run prettier && npm run typecheck",
+    "check": "npm run fix && npm run typecheck",
     "fix": "eslint . --fix",
-    "lint": "eslint .",
-    "prettier": "prettier . --check",
+    "prepare": "husky",
     "typecheck": "tsc --noEmit"
+  },
+  "lint-staged": {
+    "!(*.ts|*.mts|*.cts|*.tsx|*.js|*.cjs|*.mjs|*.jsx)": "prettier --write --ignore-unknown",
+    "*.ts|*.mts|*.cts|*.tsx|*.js|*.cjs|*.mjs|*.jsx": "eslint --fix"
   },
   "prettier": "./prettier/index.js",
   "dependencies": {
     "@babel/eslint-parser": "^7.27.1",
     "@babel/preset-env": "^7.27.2",
     "@eslint-community/eslint-plugin-eslint-comments": "^4.5.0",
+    "@eslint-react/eslint-plugin": "^1.53.0",
     "@eslint/js": "^9.27.0",
     "@next/eslint-plugin-next": "^15.3.3",
     "@types/eslint-plugin-jsx-a11y": "^6.10.0",
@@ -36,7 +40,6 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.4.0",
-    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-unicorn": "^59.0.1",
     "globals": "^16.2.0",
@@ -45,7 +48,9 @@
   },
   "devDependencies": {
     "eslint": "^9.27.0",
+    "husky": "^9.1.7",
     "jiti": "^2.4.2",
+    "lint-staged": "^16.1.6",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3"
   },
@@ -56,6 +61,6 @@
     "typescript": "^5.8.3"
   },
   "engines": {
-    "node": ">=20.11"
+    "node": ">=22.16"
   }
 }

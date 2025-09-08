@@ -13,5 +13,6 @@ declare module "@next/eslint-plugin-next" {
   }
 
   const plugin: NextESLintPlugin;
+  // eslint-disable-next-line import/no-default-export -- @next/eslint-plugin-next exports plugin by default
   export default plugin;
 }

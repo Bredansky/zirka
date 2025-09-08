@@ -1,6 +1,6 @@
 import { defineConfig } from "eslint/config";
 import globals from "globals";
-import { baseConfig } from "./_base.js";
+import { baseConfig } from "./_base";
 
 // This transforms the base config array by mapping over each entry and conditionally modifying it
 export const nodeConfig = defineConfig(

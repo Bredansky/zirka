@@ -1,9 +1,9 @@
 import tseslint from "typescript-eslint";
 import { type Linter } from "eslint";
-import { typescriptImportRules } from "./rules/typescript/import.ts";
-import { typescriptRules } from "./rules/typescript/index.ts";
-import { typescriptExtensionRules } from "./rules/typescript/extenstion.ts";
-import { JAVASCRIPT_FILES, TYPESCRIPT_FILES } from "./utils/constants.ts";
+import { typescriptImportRules } from "./rules/typescript/import";
+import { typescriptRules } from "./rules/typescript/index";
+import { typescriptExtensionRules } from "./rules/typescript/extenstion";
+import { JAVASCRIPT_FILES, TYPESCRIPT_FILES } from "./utils/constants";
 
 export const typescriptConfig = tseslint.config([
   tseslint.configs.strictTypeChecked,

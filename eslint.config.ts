@@ -1,14 +1,5 @@
-import { type Linter } from "eslint";
-import { nodeConfig } from "./eslint/node.ts";
-import { typescriptConfig } from "./eslint/typescript.ts";
+import { RuleSeverity, styleguide } from "./eslint";
 
-const config: Linter.Config[] = [
-  ...nodeConfig,
-  ...typescriptConfig,
-  {
-    ignores: ["node_modules"],
-  },
-];
-
+// Ensure styleguide is a function with the correct type
 // eslint-disable-next-line import/no-default-export -- ESLint config requires default export
-export default config;
+export default styleguide({ node: RuleSeverity.Error, typescript: RuleSeverity.Error });

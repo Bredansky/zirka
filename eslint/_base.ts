@@ -3,15 +3,15 @@ import * as importPlugin from "eslint-plugin-import";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import babelParser from "@babel/eslint-parser";
 import { defineConfig } from "eslint/config";
-import { ECMA_VERSION, JAVASCRIPT_FILES } from "./utils/constants.ts";
-import { bestPracticeRules } from "./rules/best-practice.js";
-import { es6Rules } from "./rules/es6.js";
-import { importRules } from "./rules/import.js";
-import { possibleErrorsRules } from "./rules/possible-errors.js";
-import { stylisticRules } from "./rules/stylistic.js";
-import { commentsConfig } from "./rules/comments.js";
-import { unicornConfig } from "./rules/unicorn.js";
-import { variablesRules } from "./rules/variables.js";
+import { ECMA_VERSION, JAVASCRIPT_FILES } from "./utils/constants";
+import { bestPracticeRules } from "./rules/best-practice";
+import { es6Rules } from "./rules/es6";
+import { importRules } from "./rules/import";
+import { possibleErrorsRules } from "./rules/possible-errors";
+import { stylisticRules } from "./rules/stylistic";
+import { commentsConfig } from "./rules/comments";
+import { unicornConfig } from "./rules/unicorn";
+import { variablesRules } from "./rules/variables";
 
 export const baseConfig = defineConfig([
   // Core recommended ESLint rules
@@ -63,7 +63,7 @@ export const baseConfig = defineConfig([
     },
 
     // This un-ignores dotfiles like `.eslintrc.js`, which are usually ignored by default
-    ignores: ["!.*.js", "!.*.ts"],
+    ignores: ["!.*.js", "!.*"],
   },
 
   // Override for JavaScript files (optional but useful)

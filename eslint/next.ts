@@ -1,6 +1,6 @@
 import { defineConfig } from "eslint/config";
 import nextPlugin from "@next/eslint-plugin-next";
-import { JAVASCRIPT_FILES } from "./utils/constants.ts";
+import { JAVASCRIPT_FILES } from "./utils/constants";
 
 const babelOptions = {
   presets: (() => {
@@ -24,7 +24,7 @@ export const nextConfig = defineConfig([
     },
   },
   {
-    files: ["**/page.tsx", "**/route.ts", "**/layout.tsx"],
+    files: ["**/page.tsx", "**/route", "**/layout.tsx"],
     rules: {
       "import/no-default-export": "off",
     },

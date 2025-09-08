@@ -1,5 +1,5 @@
 import { type Linter } from "eslint";
-import { noUnusedVarsConfig } from "../variables.ts";
+import { noUnusedVarsConfig } from "../variables";
 
 export const typescriptExtensionRules: Linter.RulesRecord = {
   /**
