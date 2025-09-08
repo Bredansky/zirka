@@ -12,8 +12,8 @@ export const unicornConfig = defineConfig({
   rules: {
     /**
      * Require consistent filename case for all linted files.
-     *
      * 🚫 Not fixable - https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/filename-case.md
+     * Source: Vercel Style Guide → https://github.com/vercel/style-guide
      */
     "unicorn/filename-case": [
       "error",
@@ -21,10 +21,11 @@ export const unicornConfig = defineConfig({
         case: "kebabCase",
       },
     ],
+
     /**
      * Require using the `node:` protocol when importing Node.js built-in modules.
-     *
      * 🔧 Fixable - https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-node-protocol.md
+     * Source: Vercel Style Guide → https://github.com/vercel/style-guide
      */
     "unicorn/prefer-node-protocol": "warn",
   },
