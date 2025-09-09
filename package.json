@@ -7,12 +7,12 @@
   "type": "module",
   "exports": {
     ".": {
-      "require": "./dist/styleguide.cjs",
       "import": "./dist/styleguide.js",
-      "types": "./dist/styleguide.d.ts"
+      "require": "./dist/styleguide.cjs"
     },
     "./typescript": "./typescript/base.json"
   },
+  "types": "dist/styleguide.d.ts",
   "files": [
     "dist",
     "typescript",
