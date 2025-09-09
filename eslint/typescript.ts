@@ -13,12 +13,14 @@ export const typescriptConfig = tseslint.config([
   // These rules focus on code style and readability specifically for TypeScript.
   tseslint.configs.stylisticTypeChecked,
   {
-    // This thing is needed to allow TS to group the imports correctly
+    // TypeScript resolver works better for both '.js' and '.ts' files
     settings: {
       "import/resolver": {
         typescript: true,
       },
     },
+  },
+  {
     // This configuration applies specifically to TypeScript files.
     files: TYPESCRIPT_FILES,
     languageOptions: {
