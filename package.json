@@ -1,12 +1,13 @@
 {
   "name": "@bredansky/styleguide",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "",
   "license": "ISC",
   "author": "",
   "type": "module",
   "exports": {
     ".": {
+      "require": "./dist/styleguide.cjs",
       "import": "./dist/styleguide.js",
       "types": "./dist/styleguide.d.ts"
     },
