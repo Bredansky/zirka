@@ -6,13 +6,15 @@
   "author": "",
   "type": "module",
   "exports": {
-    ".": "./styleguide.ts",
+    ".": {
+      "import": "./dist/styleguide.js",
+      "types": "./dist/styleguide.d.ts"
+    },
     "./typescript": "./typescript/base.json"
   },
   "files": [
+    "dist",
     "typescript",
-    "eslint",
-    "prettier",
     "types"
   ],
   "scripts": {
