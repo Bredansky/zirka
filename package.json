@@ -6,8 +6,7 @@
   "author": "",
   "type": "module",
   "exports": {
-    "./eslint": "./eslint/index.ts",
-    "./prettier": "./prettier/index.js",
+    ".": "./styleguide.ts",
     "./typescript": "./typescript/base.json"
   },
   "files": [
@@ -17,16 +16,15 @@
     "types"
   ],
   "scripts": {
+    "build": "tsup",
     "check": "npm run fix && npm run typecheck",
     "fix": "eslint . --fix",
-    "prepare": "husky",
-    "typecheck": "tsc --noEmit"
+    "prepare": "husky"
   },
   "lint-staged": {
     "!(*.ts|*.mts|*.cts|*.tsx|*.js|*.cjs|*.mjs|*.jsx)": "prettier --write --ignore-unknown",
     "*.ts|*.mts|*.cts|*.tsx|*.js|*.cjs|*.mjs|*.jsx": "eslint --fix"
   },
-  "prettier": "./prettier/index.js",
   "dependencies": {
     "@babel/eslint-parser": "^7.27.1",
     "@babel/preset-env": "^7.27.2",
@@ -45,19 +43,19 @@
     "eslint-plugin-unicorn": "^59.0.1",
     "globals": "^16.2.0",
     "prettier-plugin-packagejson": "^2.5.14",
+    "prettier-plugin-tailwindcss": "^0.6.14",
     "typescript-eslint": "^8.33.1"
   },
   "devDependencies": {
     "eslint": "^9.27.0",
     "husky": "^9.1.7",
-    "jiti": "^2.4.2",
     "lint-staged": "^16.1.6",
     "prettier": "^3.5.3",
+    "tsup": "^8.5.0",
     "typescript": "^5.8.3"
   },
   "peerDependencies": {
     "eslint": "^9.27.0",
-    "jiti": "^2.4.2",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3"
   },

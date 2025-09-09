@@ -1,12 +1,12 @@
 import type { Linter } from "eslint";
 import { type Config } from "prettier";
-import { getPrettierConfig } from "../prettier";
-import { transformSeverity } from "./utils/transform-severity";
-import { browserConfig } from "./browser";
-import { nextConfig } from "./next";
-import { nodeConfig } from "./node";
-import { reactConfig } from "./react";
-import { typescriptConfig } from "./typescript";
+import { getPrettierConfig } from "./prettier";
+import { transformSeverity } from "./eslint/utils/transform-severity";
+import { browserConfig } from "./eslint/browser";
+import { nextConfig } from "./eslint/next";
+import { nodeConfig } from "./eslint/node";
+import { reactConfig } from "./eslint/react";
+import { typescriptConfig } from "./eslint/typescript";
 
 export enum RuleSeverity {
   Off = "off",
