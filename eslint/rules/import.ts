@@ -91,3 +91,13 @@ export const importRules: Linter.RulesRecord = {
     },
   ],
 };
+
+/**
+ * Override configuration for files that commonly require default exports
+ */
+export const importOverrides: Linter.Config = {
+  files: ["**/*.config.{js,ts}"],
+  rules: {
+    "import/no-default-export": "off",
+  },
+};

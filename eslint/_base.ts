@@ -6,7 +6,7 @@ import { defineConfig } from "eslint/config";
 import { ECMA_VERSION, JAVASCRIPT_FILES } from "./utils/constants";
 import { bestPracticeRules } from "./rules/best-practice";
 import { es6Rules } from "./rules/es6";
-import { importRules } from "./rules/import";
+import { importRules, importOverrides } from "./rules/import";
 import { possibleErrorsRules } from "./rules/possible-errors";
 import { stylisticRules } from "./rules/stylistic";
 import { commentsConfig } from "./rules/comments";
@@ -85,4 +85,7 @@ export const baseConfig = defineConfig([
       },
     },
   },
+
+  // Override for config files that commonly require default exports
+  importOverrides,
 ]);
