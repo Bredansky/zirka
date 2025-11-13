@@ -5,6 +5,7 @@ import { transformSeverity } from "./eslint/utils/transform-severity";
 import { browserConfig } from "./eslint/browser";
 import { nextConfig } from "./eslint/next";
 import { nodeConfig } from "./eslint/node";
+import { playwrightConfig } from "./eslint/playwright";
 import { reactConfig } from "./eslint/react";
 import { typescriptConfig } from "./eslint/typescript";
 
@@ -25,6 +26,7 @@ interface StyleguideOptions {
   typescript?: RuleSeverity;
   react?: RuleSeverity;
   next?: RuleSeverity;
+  playwright?: RuleSeverity;
   ignores?: string[];
   additionalConfigs?: Linter.Config[];
   prettier?: PrettierOptions | true;
@@ -37,7 +39,7 @@ const applySeverity = (config: Linter.Config[], severity?: RuleSeverity): Linter
 };
 
 export function styleguide(options: StyleguideOptions): { eslintConfig?: Linter.Config[]; prettierConfig?: Config } {
-  const { browser, node, typescript, react, next, ignores, additionalConfigs = [], prettier } = options;
+  const { browser, node, typescript, react, next, playwright, ignores, additionalConfigs = [], prettier } = options;
 
   const eslintConfigs: Linter.Config[] = [
     { config: browserConfig, severity: browser },
@@ -45,6 +47,7 @@ export function styleguide(options: StyleguideOptions): { eslintConfig?: Linter.
     { config: typescriptConfig, severity: typescript },
     { config: reactConfig, severity: react },
     { config: nextConfig, severity: next },
+    { config: playwrightConfig, severity: playwright },
   ].flatMap(({ config, severity }) => applySeverity(config, severity));
 
   if (ignores && ignores.length > 0) {
