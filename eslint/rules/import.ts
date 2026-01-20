@@ -34,7 +34,7 @@ export const importRules: Linter.RulesRecord = {
    * 🔧 Fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-duplicates.md
    * Source: Added by bredansky → https://github.com/bredansky
    */
-  "import/no-duplicates": ["error", { "prefer-inline": false }],
+  "import/no-duplicates": ["error", { "prefer-inline": true }],
 
   /**
    * Disallow default exports.
