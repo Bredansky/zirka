@@ -30,6 +30,13 @@ export const importRules: Linter.RulesRecord = {
   "import/no-cycle": "error",
 
   /**
+   * Disallow duplicate imports from the same module.
+   * 🔧 Fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-duplicates.md
+   * Source: Added by bredansky → https://github.com/bredansky
+   */
+  "import/no-duplicates": ["error", { "prefer-inline": false }],
+
+  /**
    * Disallow default exports.
    * 🚫 Not fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-default-export.md
    * Source: Vercel Style Guide → https://github.com/vercel/style-guide
