@@ -94,13 +94,7 @@ Includes `prettier-plugin-packagejson` by default.
 
 ## TypeScript — `tsconfig.json`
 
-```json
-{
-  "extends": "zirka/typescript"
-}
-```
-
-The base config only sets strictness flags — no environment-specific settings. Add your own `module`, `lib`, `target`, etc. on top:
+The base config only sets strictness flags — no environment-specific settings. Extend it and add your own `module`, `lib`, `target`, etc.:
 
 ```json
 {
