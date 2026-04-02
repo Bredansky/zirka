@@ -6,8 +6,8 @@ export default defineConfig({
   outDir: "dist",
   clean: true, // remove old files in dist
   dts: true, // generate TypeScript declaration files
-  splitting: true, // enable code splitting for lazy loading
-  minify: true,
+  splitting: false,
+  minify: false,
   target: "esnext",
   external: [
     "globals",
