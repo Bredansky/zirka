@@ -22,7 +22,8 @@
     "build": "tsup",
     "check": "npm run fix && npm run typecheck",
     "fix": "eslint . --fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "lint-staged": {
     "!(*.ts|*.mts|*.cts|*.tsx|*.js|*.cjs|*.mjs|*.jsx)": "prettier --write --ignore-unknown",
