@@ -1,11 +1,11 @@
-import { type Config } from "prettier";
+import type { Options } from "prettier";
 
 export interface PrettierOptions {
   tailwind?: boolean;
 }
 
 /** Base Prettier config */
-export const basePrettierConfig: Config = {
+export const basePrettierConfig: Options = {
   endOfLine: "lf",
   tabWidth: 2,
   printWidth: 120,
@@ -19,7 +19,7 @@ export const basePrettierConfig: Config = {
  * Returns a Prettier config based on the options.
  * `options` can be `true` (return base config) or an object with options
  */
-export function getPrettierConfig(options: true | PrettierOptions): Config {
+export function getPrettierConfig(options: true | PrettierOptions): Options {
   if (options === true) {
     return basePrettierConfig;
   }

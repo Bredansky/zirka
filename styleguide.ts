@@ -1,6 +1,6 @@
 import type { Linter } from "eslint";
-import { type Config } from "prettier";
-import { getPrettierConfig } from "./prettier";
+import type { Options } from "prettier";
+import { getPrettierConfig } from "./prettier-config";
 
 export enum RuleSeverity {
   Off = "off",
@@ -64,7 +64,7 @@ const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Con
 
 interface StyleguideResult {
   eslintConfig?: Linter.Config[] | Promise<Linter.Config[]>;
-  prettierConfig?: Config;
+  prettierConfig?: Options;
 }
 
 export function styleguide(options: StyleguideOptions): StyleguideResult {

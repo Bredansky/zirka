@@ -51,23 +51,6 @@ export const importRules: Linter.RulesRecord = {
   "import/no-extraneous-dependencies": ["error", { includeTypes: true }],
 
   /**
-   * Disallow relative imports that reach into src when alias imports are available.
-   * 🚫 Not fixable - https://eslint.org/docs/latest/rules/no-restricted-imports
-   * Source: Added by bredansky → https://github.com/bredansky
-   */
-  "no-restricted-imports": [
-    "error",
-    {
-      patterns: [
-        {
-          group: ["./src/**", "../src/**", "../../src/**", "../../../src/**", "../../../../src/**"],
-          message: "Use the @/ alias for imports from src.",
-        },
-      ],
-    },
-  ],
-
-  /**
    * Disallow mutable exports.
    * 🚫 Not fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-mutable-exports.md
    * Source: Vercel Style Guide → https://github.com/vercel/style-guide
