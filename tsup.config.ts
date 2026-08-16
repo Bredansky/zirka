@@ -26,5 +26,6 @@ export default defineConfig({
     "typescript-eslint",
     "eslint-config-prettier",
     "eslint-import-resolver-typescript",
+    "pasika/eslint",
   ],
 });
