@@ -10,18 +10,24 @@ export const NEXT_JS_FILES = [
   // App Router
   "**/app/**/page.{js,jsx,ts,tsx}",
   "**/app/**/layout.{js,jsx,ts,tsx}",
+  "**/app/**/template.{js,jsx,ts,tsx}",
   "**/app/**/loading.{js,jsx,ts,tsx}",
   "**/app/**/error.{js,jsx,ts,tsx}",
   "**/app/**/not-found.{js,jsx,ts,tsx}",
   "**/app/**/global-error.{js,jsx,ts,tsx}",
   "**/app/**/route.{js,ts}",
+  "**/app/**/icon.{js,jsx,ts,tsx}",
+  "**/app/**/apple-icon.{js,jsx,ts,tsx}",
   "**/src/app/**/page.{js,jsx,ts,tsx}",
   "**/src/app/**/layout.{js,jsx,ts,tsx}",
+  "**/src/app/**/template.{js,jsx,ts,tsx}",
   "**/src/app/**/loading.{js,jsx,ts,tsx}",
   "**/src/app/**/error.{js,jsx,ts,tsx}",
   "**/src/app/**/not-found.{js,jsx,ts,tsx}",
   "**/src/app/**/global-error.{js,jsx,ts,tsx}",
   "**/src/app/**/route.{js,ts}",
+  "**/src/app/**/icon.{js,jsx,ts,tsx}",
+  "**/src/app/**/apple-icon.{js,jsx,ts,tsx}",
 ];
 
 /**
