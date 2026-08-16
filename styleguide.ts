@@ -19,6 +19,7 @@ export interface StyleguideOptions {
   typescript?: RuleSeverity;
   react?: RuleSeverity;
   next?: RuleSeverity;
+  pasika?: RuleSeverity;
   playwright?: RuleSeverity;
   ignores?: string[];
   additionalConfigs?: Linter.Config[];
@@ -33,7 +34,7 @@ const applySeverity = async (config: Linter.Config[], severity?: RuleSeverity): 
 };
 
 const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Config[]> => {
-  const { browser, node, typescript, react, next, playwright, ignores, additionalConfigs = [] } = options;
+  const { browser, node, typescript, react, next, pasika, playwright, ignores, additionalConfigs = [] } = options;
 
   const configLoaders = [
     { loader: () => import("./eslint/browser").then((m) => m.browserConfig), severity: browser },
@@ -41,6 +42,7 @@ const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Con
     { loader: () => import("./eslint/typescript").then((m) => m.typescriptConfig), severity: typescript },
     { loader: () => import("./eslint/react").then((m) => m.reactConfig), severity: react },
     { loader: () => import("./eslint/next").then((m) => m.nextConfig), severity: next },
+    { loader: () => import("pasika/eslint").then((m) => [m.pasikaConfig]), severity: pasika },
     { loader: () => import("./eslint/playwright").then((m) => m.playwrightConfig), severity: playwright },
   ];
 
@@ -68,9 +70,9 @@ interface StyleguideResult {
 }
 
 export function styleguide(options: StyleguideOptions): StyleguideResult {
-  const { browser, node, typescript, react, next, playwright, prettier } = options;
+  const { browser, node, typescript, react, next, pasika, playwright, prettier } = options;
 
-  const hasEslintOptions = browser ?? node ?? typescript ?? react ?? next ?? playwright;
+  const hasEslintOptions = browser ?? node ?? typescript ?? react ?? next ?? pasika ?? playwright;
   const prettierConfig = prettier ? getPrettierConfig(prettier) : undefined;
 
   if (!hasEslintOptions) {

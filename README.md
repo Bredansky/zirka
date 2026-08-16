@@ -61,6 +61,7 @@ Base rules (always included with any block): `@eslint/js` recommended, `eslint-p
 | `typescript`        | `RuleSeverity`                   | TypeScript-ESLint strict rules          |
 | `react`             | `RuleSeverity`                   | React + JSX-a11y rules                  |
 | `next`              | `RuleSeverity`                   | Next.js rules                           |
+| `pasika`            | `RuleSeverity`                   | Pasika code-organization rules          |
 | `playwright`        | `RuleSeverity`                   | Playwright test rules                   |
 | `ignores`           | `string[]`                       | Glob patterns to ignore                 |
 | `additionalConfigs` | `Linter.Config[]`                | Extra flat config entries appended last |
