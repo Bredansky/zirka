@@ -22,7 +22,6 @@ export interface StyleguideOptions {
   pasika?: RuleSeverity;
   playwright?: RuleSeverity;
   ignores?: string[];
-  allowDefaultProject?: string[];
   additionalConfigs?: Linter.Config[];
   prettier?: PrettierOptions | true;
 }
@@ -34,41 +33,8 @@ const applySeverity = async (config: Linter.Config[], severity?: RuleSeverity): 
   return transformSeverity(config, severity);
 };
 
-const getProperty = (obj: object, key: string): unknown => {
-  const desc = Object.getOwnPropertyDescriptor(obj, key);
-  return desc?.value;
-};
-
-const setProperty = (obj: object, key: string, value: unknown): void => {
-  Object.defineProperty(obj, key, { value, writable: true, enumerable: true, configurable: true });
-};
-
-const injectAllowDefaultProject = (entry: Linter.Config, allowDefaultProject: string[]): void => {
-  const langOpts = entry.languageOptions;
-  if (!langOpts || typeof langOpts !== "object") return;
-  const parserOpts = getProperty(langOpts, "parserOptions");
-  if (!parserOpts || typeof parserOpts !== "object") return;
-  const ps = getProperty(parserOpts, "projectService");
-  if (ps === true) {
-    setProperty(parserOpts, "projectService", { allowDefaultProject });
-  } else if (ps && typeof ps === "object") {
-    setProperty(ps, "allowDefaultProject", allowDefaultProject);
-  }
-};
-
 const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Config[]> => {
-  const {
-    browser,
-    node,
-    typescript,
-    react,
-    next,
-    pasika,
-    playwright,
-    ignores,
-    allowDefaultProject = ["eslint.config.ts"],
-    additionalConfigs = [],
-  } = options;
+  const { browser, node, typescript, react, next, pasika, playwright, ignores, additionalConfigs = [] } = options;
 
   const configLoaders = [
     { loader: () => import("./eslint/browser").then((m) => m.browserConfig), severity: browser },
@@ -87,14 +53,6 @@ const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Con
       const config = await loader();
       const processedConfig = await applySeverity(config, severity);
       eslintConfigs.push(...processedConfig);
-    }
-  }
-
-  // Inject allowDefaultProject into the TypeScript parser's projectService
-  // so files not in tsconfig.json (like eslint.config.ts) can still be linted.
-  if (allowDefaultProject.length > 0) {
-    for (const entry of eslintConfigs) {
-      injectAllowDefaultProject(entry, allowDefaultProject);
     }
   }
 
