@@ -67,6 +67,13 @@ const loadPasikaConfigs = async (): Promise<Linter.Config[]> => {
       plugins: { pasika: pasikaJsTs },
       rules: Object.fromEntries(Object.keys(pasika.pasikaRules).map((name) => [`pasika/${name}`, "error"])),
     },
+    // All JS/TS files, so source-under-src can flag modules outside src/ that
+    // the src-scoped block above never sees (config files are exempt in-rule).
+    {
+      files: JS_TS_FILES,
+      plugins: { pasika: pasikaJsTs },
+      rules: { "pasika/source-under-src": "error" },
+    },
     {
       files: ["src/**/globals.css"],
       plugins: { css: cssPlugin, pasika: pasikaCss },
