@@ -37,13 +37,6 @@ export const importRules: Linter.RulesRecord = {
   "import/no-duplicates": ["error", { "prefer-inline": true }],
 
   /**
-   * Disallow default exports.
-   * 🚫 Not fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-default-export.md
-   * Source: Vercel Style Guide → https://github.com/vercel/style-guide
-   */
-  "import/no-default-export": "error",
-
-  /**
    * Disallow the use of extraneous packages.
    * 🚫 Not fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-extraneous-dependencies.md
    * Source: Vercel Style Guide → https://github.com/vercel/style-guide
@@ -103,8 +96,8 @@ export const importRules: Linter.RulesRecord = {
  * Override configuration for files that commonly require default exports
  */
 export const importOverrides: Linter.Config = {
-  files: ["**/*.config.{cjs,cts,js,mjs,mts,ts}"],
+  files: ["**/*.config.{cjs,cts,js,mjs,mts,ts}", "types/**/*.d.ts"],
   rules: {
-    "import/no-default-export": "off",
+    "pasika/named-exports": "off",
   },
 };

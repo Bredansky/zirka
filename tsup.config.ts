@@ -14,8 +14,6 @@ export default defineConfig({
     "@eslint/js",
     "eslint-plugin-import",
     "eslint-plugin-prettier",
-    "@babel/eslint-parser",
-    "@babel/preset-env",
     "@eslint-community/eslint-plugin-eslint-comments",
     "@eslint-react/eslint-plugin",
     "@next/eslint-plugin-next",

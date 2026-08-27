@@ -36,6 +36,6 @@ export const NEXT_JS_FILES = [
 export const nextImportRules: Linter.Config = {
   files: NEXT_JS_FILES,
   rules: {
-    "import/no-default-export": "off",
+    "pasika/named-exports": "off",
   },
 };

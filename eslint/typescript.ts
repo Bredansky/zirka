@@ -1,13 +1,10 @@
 import tseslint from "typescript-eslint";
-import { type Linter } from "eslint";
+import { defineConfig } from "eslint/config";
 import { typescriptImportRules } from "./rules/typescript/import";
 import { typescriptRules } from "./rules/typescript/index";
 import { JAVASCRIPT_FILES, TYPESCRIPT_FILES } from "./utils/constants";
 
-// Manual type assertion to `Linter.Config[]` is required due to TSESLint's incompatibility with @types/eslint
-// See: https://github.com/typescript-eslint/typescript-eslint/issues/8613
-// eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- assertion needed for TSESLint typing
-export const typescriptConfig = tseslint.config([
+export const typescriptConfig = defineConfig([
   // These rules enforce strong type safety and identify potential type-related issues.
   tseslint.configs.strictTypeChecked,
   // These rules focus on code style and readability specifically for TypeScript.
@@ -47,4 +44,4 @@ export const typescriptConfig = tseslint.config([
     files: JAVASCRIPT_FILES,
     extends: [tseslint.configs.disableTypeChecked],
   },
-]) as Linter.Config[];
+]);

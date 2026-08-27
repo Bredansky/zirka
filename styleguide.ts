@@ -33,6 +33,66 @@ const applySeverity = async (config: Linter.Config[], severity?: RuleSeverity): 
   return transformSeverity(config, severity);
 };
 
+/** Load pasika TS/TSX, CSS, and JSON configs for consumers. */
+const loadPasikaConfigs = async (): Promise<Linter.Config[]> => {
+  const [pasika, cssMod, jsonMod, markdownMod] = await Promise.all([
+    import("pasika/eslint"),
+    import("@eslint/css"),
+    import("@eslint/json"),
+    import("@eslint/markdown"),
+  ]);
+
+  const cssPlugin = cssMod.default;
+  const jsonPlugin = jsonMod.default;
+  const markdownPlugin = markdownMod.default;
+  const pasikaJsTs = { rules: pasika.pasikaRules };
+  const pasikaCss = { rules: pasika.cssRules };
+  const pasikaJson = { rules: pasika.jsonRules };
+
+  return [
+    { ignores: ["**/*.css", "package.json", "**/*.md"] },
+    {
+      files: ["src/**/*.{cjs,cts,js,jsx,mjs,mts,ts,tsx}"],
+      plugins: { pasika: pasikaJsTs },
+      rules: Object.fromEntries(Object.keys(pasika.pasikaRules).map((name) => [`pasika/${name}`, "error"])),
+    },
+    {
+      files: ["src/**/globals.css"],
+      plugins: { css: cssPlugin, pasika: pasikaCss },
+      language: "css/css",
+      languageOptions: { tolerant: true },
+      rules: Object.fromEntries(
+        Object.keys(pasika.cssRules)
+          .filter((name) => name !== "global-css-location")
+          .map((name) => [`pasika/${name}`, "error"]),
+      ),
+    },
+    {
+      files: ["src/**/*.css"],
+      plugins: { css: cssPlugin, pasika: pasikaCss },
+      language: "css/css",
+      languageOptions: { tolerant: true },
+      rules: { "pasika/global-css-location": "error" },
+    },
+    {
+      files: ["**/*.md"],
+      ignores: ["**/_templates/**"],
+      plugins: { markdown: markdownPlugin, pasika: { rules: pasika.mdRules } },
+      language: "markdown/gfm",
+      rules: Object.fromEntries(Object.keys(pasika.mdRules).map((name) => [`pasika/${name}`, "error"])),
+    },
+    {
+      files: ["package.json"],
+      plugins: {
+        json: { languages: { json: jsonPlugin.languages.json } },
+        pasika: pasikaJson,
+      },
+      language: "json/json",
+      rules: Object.fromEntries(Object.keys(pasika.jsonRules).map((name) => [`pasika/${name}`, "error"])),
+    },
+  ];
+};
+
 const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Config[]> => {
   const { browser, node, typescript, react, next, pasika, playwright, ignores, additionalConfigs = [] } = options;
 
@@ -42,7 +102,7 @@ const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Con
     { loader: () => import("./eslint/typescript").then((m) => m.typescriptConfig), severity: typescript },
     { loader: () => import("./eslint/react").then((m) => m.reactConfig), severity: react },
     { loader: () => import("./eslint/next").then((m) => m.nextConfig), severity: next },
-    { loader: () => import("pasika/eslint").then((m) => [m.pasikaConfig]), severity: pasika },
+    { loader: () => loadPasikaConfigs(), severity: pasika },
     { loader: () => import("./eslint/playwright").then((m) => m.playwrightConfig), severity: playwright },
   ];
 
@@ -76,11 +136,9 @@ export function styleguide(options: StyleguideOptions): StyleguideResult {
   const prettierConfig = prettier ? getPrettierConfig(prettier) : undefined;
 
   if (!hasEslintOptions) {
-    // Return immediately without any ESLint imports when only prettier is used
     return { prettierConfig };
   }
 
-  // Only load ESLint configs when actually needed
   const eslintConfig = loadEslintConfigs(options);
 
   return {

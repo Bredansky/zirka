@@ -27,8 +27,7 @@ export function transformSeverity(
         }
 
         const [currentSeverity, ruleOptions, isOriginalRuleArray] = Array.isArray(ruleConfig)
-          ? // eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- ESLint's 'RuleEntry' is typed with any[]
-            [ruleConfig[0], ruleConfig.slice(1) as unknown[], true]
+          ? [ruleConfig[0], ruleConfig.slice(1), true]
           : [ruleConfig, [], false];
 
         let newRuleEntry: Linter.RuleEntry<unknown[]> | Linter.Severity = ruleConfig;
