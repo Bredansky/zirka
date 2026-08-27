@@ -40,8 +40,22 @@ Each config block is loaded lazily — if you don't enable `react`, none of its 
 | `react`      | —                          | `@eslint-react`, `react-hooks`, `jsx-a11y`         |
 | `next`       | —                          | `@next/eslint-plugin-next`                         |
 | `playwright` | —                          | `eslint-plugin-playwright`                         |
+| `pasika`     | —                          | Pasika rules over TS/TSX, CSS, Markdown, and JSON  |
 
 Base rules (always included with any block): `@eslint/js` recommended, `eslint-plugin-import`, `eslint-plugin-prettier`, `eslint-plugin-unicorn`, `eslint-comments`.
+
+### The `pasika` block
+
+Enabling `pasika` wires four language-scoped rule sets (see the pasika README for the full rule tables):
+
+| Files                                      | Rules                     |
+| ------------------------------------------ | ------------------------- |
+| `src/**/*.{js,jsx,ts,tsx,mjs,mts,cjs,cts}` | `pasika/*` TS/TSX rules   |
+| `src/**/globals.css`, `src/**/*.css`       | `pasika/*` CSS rules      |
+| `**/*.md` (not `_templates/`)              | `pasika/*` Markdown rules |
+| `package.json`                             | `pasika/*` JSON rules     |
+
+The JS/TS base blocks (browser, node, typescript, react, next, playwright) are scoped to JS/TS files, so the pasika language blocks are never shadowed — CSS, Markdown, and JSON files are linted by their own rules.
 
 ### `RuleSeverity`
 
@@ -54,18 +68,18 @@ Base rules (always included with any block): `@eslint/js` recommended, `eslint-p
 
 ### Options
 
-| Option              | Type                             | Description                             |
-| ------------------- | -------------------------------- | --------------------------------------- |
-| `browser`           | `RuleSeverity`                   | Browser globals                         |
-| `node`              | `RuleSeverity`                   | Node.js globals                         |
-| `typescript`        | `RuleSeverity`                   | TypeScript-ESLint strict rules          |
-| `react`             | `RuleSeverity`                   | React + JSX-a11y rules                  |
-| `next`              | `RuleSeverity`                   | Next.js rules                           |
-| `pasika`            | `RuleSeverity`                   | Pasika code-organization rules          |
-| `playwright`        | `RuleSeverity`                   | Playwright test rules                   |
-| `ignores`           | `string[]`                       | Glob patterns to ignore                 |
-| `additionalConfigs` | `Linter.Config[]`                | Extra flat config entries appended last |
-| `prettier`          | `true \| { tailwind?: boolean }` | Enable Prettier config                  |
+| Option              | Type                             | Description                                  |
+| ------------------- | -------------------------------- | -------------------------------------------- |
+| `browser`           | `RuleSeverity`                   | Browser globals                              |
+| `node`              | `RuleSeverity`                   | Node.js globals                              |
+| `typescript`        | `RuleSeverity`                   | TypeScript-ESLint strict rules               |
+| `react`             | `RuleSeverity`                   | React + JSX-a11y rules                       |
+| `next`              | `RuleSeverity`                   | Next.js rules                                |
+| `pasika`            | `RuleSeverity`                   | Pasika rules: TS/TSX + CSS + Markdown + JSON |
+| `playwright`        | `RuleSeverity`                   | Playwright test rules                        |
+| `ignores`           | `string[]`                       | Glob patterns to ignore                      |
+| `additionalConfigs` | `Linter.Config[]`                | Extra flat config entries appended last      |
+| `prettier`          | `true \| { tailwind?: boolean }` | Enable Prettier config                       |
 
 ---
 
@@ -129,4 +143,4 @@ The base config only sets strictness flags — no environment-specific settings.
 ## Requirements
 
 - Node ≥ 22
-- `eslint` ^9 · `prettier` ^3 · `typescript` ^5 (peer deps)
+- `eslint` ^10.9.1 · `prettier` ^3 · `typescript` ^5 (peer deps)
