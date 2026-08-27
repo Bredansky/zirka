@@ -1,6 +1,7 @@
 import type { Linter } from "eslint";
 import type { Options } from "prettier";
 import { getPrettierConfig } from "./prettier-config";
+import { JAVASCRIPT_FILES, TYPESCRIPT_FILES } from "./eslint/utils/constants";
 
 export enum RuleSeverity {
   Off = "off",
@@ -33,6 +34,17 @@ const applySeverity = async (config: Linter.Config[], severity?: RuleSeverity): 
   return transformSeverity(config, severity);
 };
 
+const JS_TS_FILES = [...JAVASCRIPT_FILES, ...TYPESCRIPT_FILES];
+
+/**
+ * Scope JS/TS-only configs (node, browser, typescript, react, next, playwright)
+ * to JS/TS files so they never leak into CSS, Markdown, or JSON files. Without
+ * this scoping, the pasika language blocks below would be shadowed by a global
+ * ignore, and those files would not be linted at all.
+ */
+const scopeToJsTs = (configs: Linter.Config[]): Linter.Config[] =>
+  configs.map((config) => (config.files ? config : { files: JS_TS_FILES, ...config }));
+
 /** Load pasika TS/TSX, CSS, and JSON configs for consumers. */
 const loadPasikaConfigs = async (): Promise<Linter.Config[]> => {
   const [pasika, cssMod, jsonMod, markdownMod] = await Promise.all([
@@ -50,7 +62,6 @@ const loadPasikaConfigs = async (): Promise<Linter.Config[]> => {
   const pasikaJson = { rules: pasika.jsonRules };
 
   return [
-    { ignores: ["**/*.css", "package.json", "**/*.md"] },
     {
       files: ["src/**/*.{cjs,cts,js,jsx,mjs,mts,ts,tsx}"],
       plugins: { pasika: pasikaJsTs },
@@ -102,16 +113,17 @@ const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Con
     { loader: () => import("./eslint/typescript").then((m) => m.typescriptConfig), severity: typescript },
     { loader: () => import("./eslint/react").then((m) => m.reactConfig), severity: react },
     { loader: () => import("./eslint/next").then((m) => m.nextConfig), severity: next },
-    { loader: () => loadPasikaConfigs(), severity: pasika },
+    { loader: () => loadPasikaConfigs(), severity: pasika, isPasika: true },
     { loader: () => import("./eslint/playwright").then((m) => m.playwrightConfig), severity: playwright },
   ];
 
   const eslintConfigs: Linter.Config[] = [];
 
-  for (const { loader, severity } of configLoaders) {
+  for (const { loader, severity, isPasika } of configLoaders) {
     if (severity && severity !== RuleSeverity.Off) {
       const config = await loader();
-      const processedConfig = await applySeverity(config, severity);
+      const scopedConfig = isPasika ? config : scopeToJsTs(config);
+      const processedConfig = await applySeverity(scopedConfig, severity);
       eslintConfigs.push(...processedConfig);
     }
   }
