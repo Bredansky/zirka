@@ -24,7 +24,9 @@
   ],
   "scripts": {
     "build": "tsup",
+    "check": "npm run fix && npm run typecheck",
     "fix": "eslint . --fix",
+    "lint": "eslint .",
     "prepare": "husky",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
