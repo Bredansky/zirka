@@ -42,7 +42,7 @@ Each config block is loaded lazily — if you don't enable `react`, none of its 
 | `playwright` | —                          | `eslint-plugin-playwright`                         |
 | `pasika`     | —                          | Pasika rules over TS/TSX, CSS, Markdown, and JSON  |
 
-Base rules (always included with any block): `@eslint/js` recommended, `eslint-plugin-import`, `eslint-plugin-prettier`, `eslint-plugin-unicorn`, `eslint-comments`.
+Base rules (always included with any block): `@eslint/js` recommended, `@eslint-community/eslint-plugin-eslint-comments`, `eslint-plugin-unicorn`, and the hand-written best-practice, ES6, possible-errors, stylistic, and variables rule sets.
 
 ### The `pasika` block
 
