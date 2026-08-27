@@ -1,6 +1,6 @@
 {
   "name": "zirka",
-  "version": "0.0.40",
+  "version": "0.0.41",
   "description": "",
   "repository": {
     "type": "git",
@@ -53,7 +53,8 @@
     "jiti": "^2.6.1",
     "pasika": "^0.3.2",
     "prettier-plugin-packagejson": "^2.5.14",
-    "prettier-plugin-tailwindcss": "^0.6.14"
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "typescript-eslint": "^8.68.0"
   },
   "devDependencies": {
     "eslint": "^10.9.1",
@@ -61,8 +62,7 @@
     "lint-staged": "^16.1.6",
     "prettier": "^3.5.3",
     "tsup": "^8.5.0",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.68.0"
+    "typescript": "^5.8.3"
   },
   "peerDependencies": {
     "eslint": "^10.9.1",
