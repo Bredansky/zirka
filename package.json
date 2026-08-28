@@ -1,6 +1,6 @@
 {
   "name": "zirka",
-  "version": "0.0.44",
+  "version": "0.0.45",
   "description": "",
   "repository": {
     "type": "git",
@@ -62,12 +62,12 @@
     "lint-staged": "^16.1.6",
     "prettier": "^3.5.3",
     "tsup": "^8.5.0",
-    "typescript": "^5.8.3"
+    "typescript": "6.0.3"
   },
   "peerDependencies": {
     "eslint": "^10.9.1",
     "prettier": "^3.5.3",
-    "typescript": "^5.8.3"
+    "typescript": ">=5.8.3 <6.1.0"
   },
   "engines": {
     "node": ">=22"

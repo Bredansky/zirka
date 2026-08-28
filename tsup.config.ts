@@ -5,7 +5,13 @@ export default defineConfig({
   format: ["esm", "cjs"], // dual export
   outDir: "dist",
   clean: true, // remove old files in dist
-  dts: true, // generate TypeScript declaration files
+  dts: {
+    // tsup injects baseUrl into the dts compiler config; TS 6.0 deprecates
+    // baseUrl and errors on it unless ignoreDeprecations is set.
+    compilerOptions: {
+      ignoreDeprecations: "6.0",
+    },
+  }, // generate TypeScript declaration files
   splitting: false,
   minify: false,
   target: "esnext",
