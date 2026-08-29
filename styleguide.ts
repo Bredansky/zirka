@@ -45,70 +45,26 @@ const JS_TS_FILES = [...JAVASCRIPT_FILES, ...TYPESCRIPT_FILES];
 const scopeToJsTs = (configs: Linter.Config[]): Linter.Config[] =>
   configs.map((config) => (config.files ? config : { files: JS_TS_FILES, ...config }));
 
-/** Load pasika TS/TSX, CSS, and JSON configs for consumers. */
+/** Load pasika's composed presets for consumers. */
 const loadPasikaConfigs = async (): Promise<Linter.Config[]> => {
-  const [pasika, cssMod, jsonMod, markdownMod] = await Promise.all([
-    import("pasika/eslint"),
-    import("@eslint/css"),
-    import("@eslint/json"),
-    import("@eslint/markdown"),
-  ]);
-
-  const cssPlugin = cssMod.default;
-  const jsonPlugin = jsonMod.default;
-  const markdownPlugin = markdownMod.default;
+  const pasika = await import("pasika/eslint");
   const pasikaJsTs = { rules: pasika.pasikaRules };
-  const pasikaCss = { rules: pasika.cssRules };
-  const pasikaJson = { rules: pasika.jsonRules };
 
-  return [
-    {
-      files: ["src/**/*.{cjs,cts,js,jsx,mjs,mts,ts,tsx}"],
-      plugins: { pasika: pasikaJsTs },
-      rules: Object.fromEntries(Object.keys(pasika.pasikaRules).map((name) => [`pasika/${name}`, "error"])),
-    },
-    // All JS/TS files, so source-under-src can flag modules outside src/ that
-    // the src-scoped block above never sees (config files are exempt in-rule).
-    {
-      files: JS_TS_FILES,
-      plugins: { pasika: pasikaJsTs },
-      rules: { "pasika/source-under-src": "error" },
-    },
-    {
-      files: ["src/**/globals.css"],
-      plugins: { css: cssPlugin, pasika: pasikaCss },
-      language: "css/css",
-      languageOptions: { tolerant: true },
-      rules: Object.fromEntries(
-        Object.keys(pasika.cssRules)
-          .filter((name) => name !== "global-css-location")
-          .map((name) => [`pasika/${name}`, "error"]),
-      ),
-    },
-    {
-      files: ["src/**/*.css"],
-      plugins: { css: cssPlugin, pasika: pasikaCss },
-      language: "css/css",
-      languageOptions: { tolerant: true },
-      rules: { "pasika/global-css-location": "error" },
-    },
-    {
-      files: ["**/*.md"],
-      ignores: ["**/_templates/**"],
-      plugins: { markdown: markdownPlugin, pasika: { rules: pasika.mdRules } },
-      language: "markdown/gfm",
-      rules: Object.fromEntries(Object.keys(pasika.mdRules).map((name) => [`pasika/${name}`, "error"])),
-    },
-    {
-      files: ["package.json"],
-      plugins: {
-        json: { languages: { json: jsonPlugin.languages.json } },
-        pasika: pasikaJson,
-      },
-      language: "json/json",
-      rules: Object.fromEntries(Object.keys(pasika.jsonRules).map((name) => [`pasika/${name}`, "error"])),
-    },
-  ];
+  // pasika's framework-wide preset (`pasikaNext`) already wires every language
+  // block — TS/TSX source, Tailwind stylesheets, package.json, and docs — each
+  // with its own ESLint language. Reuse it as-is.
+  const next = pasika.pasikaNext;
+
+  // pasika's source block is scoped to `src/**`; keep source-under-src effective
+  // over every JS/TS file so modules outside src/ are still flagged (config
+  // files are exempt in-rule).
+  const sourceUnderSrc: Linter.Config = {
+    files: JS_TS_FILES,
+    plugins: { pasika: pasikaJsTs },
+    rules: { "pasika/source-under-src": "error" },
+  };
+
+  return [...next, sourceUnderSrc];
 };
 
 const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Config[]> => {
