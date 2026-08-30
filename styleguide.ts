@@ -51,7 +51,6 @@ type PasikaPreset = "typescriptApp" | "nextjsApp";
 /** Load a pasika app preset (`typescriptApp` or `nextjsApp`) for consumers. */
 const loadPasikaConfigs = async (preset: PasikaPreset): Promise<Linter.Config[]> => {
   const pasika = await import("pasika/eslint");
-  const pasikaJsTs = { rules: pasika.pasikaRules };
 
   // pasika's app presets already wire every language block — TS/TSX source,
   // package.json, and docs — each with its own ESLint language. Reuse as-is.
@@ -59,10 +58,11 @@ const loadPasikaConfigs = async (preset: PasikaPreset): Promise<Linter.Config[]>
 
   // pasika's source block is scoped to `src/**`; keep source-under-src effective
   // over every JS/TS file so modules outside src/ are still flagged (config
-  // files are exempt in-rule).
+  // files are exempt in-rule). The plugin must be the same object the preset
+  // blocks reference, or ESLint reports a plugin redefinition when they merge.
   const sourceUnderSrc: Linter.Config = {
     files: JS_TS_FILES,
-    plugins: { pasika: pasikaJsTs },
+    plugins: { pasika: pasika.pasikaPlugin },
     rules: { "pasika/source-under-src": "error" },
   };
 
