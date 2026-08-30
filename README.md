@@ -32,21 +32,21 @@ Each config block is loaded lazily — if you don't enable `react`, none of its 
 
 ### What's included per block
 
-| Block        | Globals                    | Rules                                              |
-| ------------ | -------------------------- | -------------------------------------------------- |
-| `browser`    | `window`, `document`, etc. | Base JS + import + prettier + unicorn              |
-| `node`       | `process`, `Buffer`, etc.  | Base JS + import + prettier + unicorn              |
-| `typescript` | —                          | `typescript-eslint` strict + stylistic, type-aware |
-| `react`      | —                          | `@eslint-react`, `react-hooks`, `jsx-a11y`         |
-| `next`       | —                          | `@next/eslint-plugin-next`                         |
-| `playwright` | —                          | `eslint-plugin-playwright`                         |
-| `pasika`     | —                          | Pasika rules over TS/TSX, CSS, Markdown, and JSON  |
+| Block             | Globals                    | Rules                                              |
+| ----------------- | -------------------------- | -------------------------------------------------- |
+| `browser`         | `window`, `document`, etc. | Base JS + import + prettier + unicorn              |
+| `node`            | `process`, `Buffer`, etc.  | Base JS + import + prettier + unicorn              |
+| `typescript`      | —                          | `typescript-eslint` strict + stylistic, type-aware |
+| `react`           | —                          | `@eslint-react`, `react-hooks`, `jsx-a11y`         |
+| `next`            | —                          | `@next/eslint-plugin-next`                         |
+| `playwright`      | —                          | `eslint-plugin-playwright`                         |     | `pasikaTypescriptApp` | —   | Pasika rules for a plain TypeScript repository |
+| `pasikaNextjsApp` | —                          | Pasika rules for a Next.js application             |
 
 Base rules (always included with any block): `@eslint/js` recommended, `@eslint-community/eslint-plugin-eslint-comments`, `eslint-plugin-unicorn`, and the hand-written best-practice, ES6, possible-errors, stylistic, and variables rule sets.
 
-### The `pasika` block
+### The pasika presets (`pasikaTypescriptApp` / `pasikaNextjsApp`)
 
-Enabling `pasika` wires four language-scoped rule sets (see the pasika README for the full rule tables):
+Enabling a pasika preset wires four language-scoped rule sets (see the pasika README for the full rule tables):
 
 | Files                                      | Rules                     |
 | ------------------------------------------ | ------------------------- |
@@ -55,7 +55,7 @@ Enabling `pasika` wires four language-scoped rule sets (see the pasika README fo
 | `**/*.md` (not `_templates/`)              | `pasika/*` Markdown rules |
 | `package.json`                             | `pasika/*` JSON rules     |
 
-The JS/TS base blocks (browser, node, typescript, react, next, playwright) are scoped to JS/TS files, so the pasika language blocks are never shadowed — CSS, Markdown, and JSON files are linted by their own rules.
+`typescriptApp` is the plain-TypeScript-repository preset — the package.json manifest, the zirka configuration contract, the `src/**` TypeScript app source, and the docs. `nextjsApp` is everything in `typescriptApp` plus the Next.js-stack manifest requirement, the Next.js app source rules, and the Tailwind stylesheet rules. The JS/TS base blocks (browser, node, typescript, react, next, playwright) are scoped to JS/TS files, so the pasika language blocks are never shadowed — CSS, Markdown, and JSON files are linted by their own rules.
 
 ### `RuleSeverity`
 
@@ -68,18 +68,19 @@ The JS/TS base blocks (browser, node, typescript, react, next, playwright) are s
 
 ### Options
 
-| Option              | Type                             | Description                                  |
-| ------------------- | -------------------------------- | -------------------------------------------- |
-| `browser`           | `RuleSeverity`                   | Browser globals                              |
-| `node`              | `RuleSeverity`                   | Node.js globals                              |
-| `typescript`        | `RuleSeverity`                   | TypeScript-ESLint strict rules               |
-| `react`             | `RuleSeverity`                   | React + JSX-a11y rules                       |
-| `next`              | `RuleSeverity`                   | Next.js rules                                |
-| `pasika`            | `RuleSeverity`                   | Pasika rules: TS/TSX + CSS + Markdown + JSON |
-| `playwright`        | `RuleSeverity`                   | Playwright test rules                        |
-| `ignores`           | `string[]`                       | Glob patterns to ignore                      |
-| `additionalConfigs` | `Linter.Config[]`                | Extra flat config entries appended last      |
-| `prettier`          | `true \| { tailwind?: boolean }` | Enable Prettier config                       |
+| Option                | Type                             | Description                                    |
+| --------------------- | -------------------------------- | ---------------------------------------------- |
+| `browser`             | `RuleSeverity`                   | Browser globals                                |
+| `node`                | `RuleSeverity`                   | Node.js globals                                |
+| `typescript`          | `RuleSeverity`                   | TypeScript-ESLint strict rules                 |
+| `react`               | `RuleSeverity`                   | React + JSX-a11y rules                         |
+| `next`                | `RuleSeverity`                   | Next.js rules                                  |
+| `pasikaTypescriptApp` | `RuleSeverity`                   | Pasika rules for a plain TypeScript repository |
+| `pasikaNextjsApp`     | `RuleSeverity`                   | Pasika rules for a Next.js application         |
+| `playwright`          | `RuleSeverity`                   | Playwright test rules                          |
+| `ignores`             | `string[]`                       | Glob patterns to ignore                        |
+| `additionalConfigs`   | `Linter.Config[]`                | Extra flat config entries appended last        |
+| `prettier`            | `true \| { tailwind?: boolean }` | Enable Prettier config                         |
 
 ---
 

@@ -20,7 +20,8 @@ export interface StyleguideOptions {
   typescript?: RuleSeverity;
   react?: RuleSeverity;
   next?: RuleSeverity;
-  pasika?: RuleSeverity;
+  pasikaTypescriptApp?: RuleSeverity;
+  pasikaNextjsApp?: RuleSeverity;
   playwright?: RuleSeverity;
   ignores?: string[];
   additionalConfigs?: Linter.Config[];
@@ -45,15 +46,16 @@ const JS_TS_FILES = [...JAVASCRIPT_FILES, ...TYPESCRIPT_FILES];
 const scopeToJsTs = (configs: Linter.Config[]): Linter.Config[] =>
   configs.map((config) => (config.files ? config : { files: JS_TS_FILES, ...config }));
 
-/** Load pasika's composed presets for consumers. */
-const loadPasikaConfigs = async (): Promise<Linter.Config[]> => {
+type PasikaPreset = "typescriptApp" | "nextjsApp";
+
+/** Load a pasika app preset (`typescriptApp` or `nextjsApp`) for consumers. */
+const loadPasikaConfigs = async (preset: PasikaPreset): Promise<Linter.Config[]> => {
   const pasika = await import("pasika/eslint");
   const pasikaJsTs = { rules: pasika.pasikaRules };
 
-  // pasika's framework-wide preset (`pasikaNext`) already wires every language
-  // block — TS/TSX source, Tailwind stylesheets, package.json, and docs — each
-  // with its own ESLint language. Reuse it as-is.
-  const next = pasika.pasikaNext;
+  // pasika's app presets already wire every language block — TS/TSX source,
+  // package.json, and docs — each with its own ESLint language. Reuse as-is.
+  const app = pasika[preset];
 
   // pasika's source block is scoped to `src/**`; keep source-under-src effective
   // over every JS/TS file so modules outside src/ are still flagged (config
@@ -64,11 +66,22 @@ const loadPasikaConfigs = async (): Promise<Linter.Config[]> => {
     rules: { "pasika/source-under-src": "error" },
   };
 
-  return [...next, sourceUnderSrc];
+  return [...app, sourceUnderSrc];
 };
 
 const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Config[]> => {
-  const { browser, node, typescript, react, next, pasika, playwright, ignores, additionalConfigs = [] } = options;
+  const {
+    browser,
+    node,
+    typescript,
+    react,
+    next,
+    pasikaTypescriptApp,
+    pasikaNextjsApp,
+    playwright,
+    ignores,
+    additionalConfigs = [],
+  } = options;
 
   const configLoaders = [
     { loader: () => import("./eslint/browser").then((m) => m.browserConfig), severity: browser },
@@ -76,7 +89,8 @@ const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Con
     { loader: () => import("./eslint/typescript").then((m) => m.typescriptConfig), severity: typescript },
     { loader: () => import("./eslint/react").then((m) => m.reactConfig), severity: react },
     { loader: () => import("./eslint/next").then((m) => m.nextConfig), severity: next },
-    { loader: () => loadPasikaConfigs(), severity: pasika, isPasika: true },
+    { loader: () => loadPasikaConfigs("typescriptApp"), severity: pasikaTypescriptApp, isPasika: true },
+    { loader: () => loadPasikaConfigs("nextjsApp"), severity: pasikaNextjsApp, isPasika: true },
     { loader: () => import("./eslint/playwright").then((m) => m.playwrightConfig), severity: playwright },
   ];
 
@@ -105,9 +119,11 @@ interface StyleguideResult {
 }
 
 export function styleguide(options: StyleguideOptions): StyleguideResult {
-  const { browser, node, typescript, react, next, pasika, playwright, prettier } = options;
+  const { browser, node, typescript, react, next, pasikaTypescriptApp, pasikaNextjsApp, playwright, prettier } =
+    options;
 
-  const hasEslintOptions = browser ?? node ?? typescript ?? react ?? next ?? pasika ?? playwright;
+  const hasEslintOptions =
+    browser ?? node ?? typescript ?? react ?? next ?? pasikaTypescriptApp ?? pasikaNextjsApp ?? playwright;
   const prettierConfig = prettier ? getPrettierConfig(prettier) : undefined;
 
   if (!hasEslintOptions) {
