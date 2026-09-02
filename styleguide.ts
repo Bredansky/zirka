@@ -23,6 +23,7 @@ export interface StyleguideOptions {
   pasikaApp?: RuleSeverity;
   pasikaNextjsApp?: RuleSeverity;
   playwright?: RuleSeverity;
+  vitest?: RuleSeverity;
   ignores?: string[];
   additionalConfigs?: Linter.Config[];
   prettier?: PrettierOptions | true;
@@ -38,8 +39,8 @@ const applySeverity = async (config: Linter.Config[], severity?: RuleSeverity): 
 const JS_TS_FILES = [...JAVASCRIPT_FILES, ...TYPESCRIPT_FILES];
 
 /**
- * Scope JS/TS-only configs (node, browser, typescript, react, next, playwright)
- * to JS/TS files so they never leak into CSS, Markdown, or JSON files. Without
+ * Scope JS/TS-only configs (node, browser, typescript, react, next, playwright,
+ * vitest) to JS/TS files so they never leak into CSS, Markdown, or JSON files. Without
  * this scoping, the pasika language blocks below would be shadowed by a global
  * ignore, and those files would not be linted at all.
  */
@@ -79,6 +80,7 @@ const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Con
     pasikaApp,
     pasikaNextjsApp,
     playwright,
+    vitest,
     ignores,
     additionalConfigs = [],
   } = options;
@@ -92,6 +94,7 @@ const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Con
     { loader: () => loadPasikaConfigs("pasikaApp"), severity: pasikaApp, isPasika: true },
     { loader: () => loadPasikaConfigs("pasikaNextjsApp"), severity: pasikaNextjsApp, isPasika: true },
     { loader: () => import("./eslint/playwright").then((m) => m.playwrightConfig), severity: playwright },
+    { loader: () => import("./eslint/vitest").then((m) => m.vitestConfig), severity: vitest },
   ];
 
   const eslintConfigs: Linter.Config[] = [];
@@ -119,10 +122,10 @@ interface StyleguideResult {
 }
 
 export function styleguide(options: StyleguideOptions): StyleguideResult {
-  const { browser, node, typescript, react, next, pasikaApp, pasikaNextjsApp, playwright, prettier } = options;
+  const { browser, node, typescript, react, next, pasikaApp, pasikaNextjsApp, playwright, vitest, prettier } = options;
 
   const hasEslintOptions =
-    browser ?? node ?? typescript ?? react ?? next ?? pasikaApp ?? pasikaNextjsApp ?? playwright;
+    browser ?? node ?? typescript ?? react ?? next ?? pasikaApp ?? pasikaNextjsApp ?? playwright ?? vitest;
   const prettierConfig = prettier ? getPrettierConfig(prettier) : undefined;
 
   if (!hasEslintOptions) {
