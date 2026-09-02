@@ -20,7 +20,7 @@ export interface StyleguideOptions {
   typescript?: RuleSeverity;
   react?: RuleSeverity;
   next?: RuleSeverity;
-  pasikaTypescriptApp?: RuleSeverity;
+  pasikaApp?: RuleSeverity;
   pasikaNextjsApp?: RuleSeverity;
   playwright?: RuleSeverity;
   ignores?: string[];
@@ -46,9 +46,9 @@ const JS_TS_FILES = [...JAVASCRIPT_FILES, ...TYPESCRIPT_FILES];
 const scopeToJsTs = (configs: Linter.Config[]): Linter.Config[] =>
   configs.map((config) => (config.files ? config : { files: JS_TS_FILES, ...config }));
 
-type PasikaPreset = "typescriptApp" | "nextjsApp";
+type PasikaPreset = "pasikaApp" | "pasikaNextjsApp";
 
-/** Load a pasika app preset (`typescriptApp` or `nextjsApp`) for consumers. */
+/** Load a pasika preset (`pasikaApp` or `pasikaNextjsApp`) for consumers. */
 const loadPasikaConfigs = async (preset: PasikaPreset): Promise<Linter.Config[]> => {
   const pasika = await import("pasika/eslint");
 
@@ -76,7 +76,7 @@ const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Con
     typescript,
     react,
     next,
-    pasikaTypescriptApp,
+    pasikaApp,
     pasikaNextjsApp,
     playwright,
     ignores,
@@ -89,8 +89,8 @@ const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Con
     { loader: () => import("./eslint/typescript").then((m) => m.typescriptConfig), severity: typescript },
     { loader: () => import("./eslint/react").then((m) => m.reactConfig), severity: react },
     { loader: () => import("./eslint/next").then((m) => m.nextConfig), severity: next },
-    { loader: () => loadPasikaConfigs("typescriptApp"), severity: pasikaTypescriptApp, isPasika: true },
-    { loader: () => loadPasikaConfigs("nextjsApp"), severity: pasikaNextjsApp, isPasika: true },
+    { loader: () => loadPasikaConfigs("pasikaApp"), severity: pasikaApp, isPasika: true },
+    { loader: () => loadPasikaConfigs("pasikaNextjsApp"), severity: pasikaNextjsApp, isPasika: true },
     { loader: () => import("./eslint/playwright").then((m) => m.playwrightConfig), severity: playwright },
   ];
 
@@ -119,11 +119,10 @@ interface StyleguideResult {
 }
 
 export function styleguide(options: StyleguideOptions): StyleguideResult {
-  const { browser, node, typescript, react, next, pasikaTypescriptApp, pasikaNextjsApp, playwright, prettier } =
-    options;
+  const { browser, node, typescript, react, next, pasikaApp, pasikaNextjsApp, playwright, prettier } = options;
 
   const hasEslintOptions =
-    browser ?? node ?? typescript ?? react ?? next ?? pasikaTypescriptApp ?? pasikaNextjsApp ?? playwright;
+    browser ?? node ?? typescript ?? react ?? next ?? pasikaApp ?? pasikaNextjsApp ?? playwright;
   const prettierConfig = prettier ? getPrettierConfig(prettier) : undefined;
 
   if (!hasEslintOptions) {
