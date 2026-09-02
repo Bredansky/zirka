@@ -32,16 +32,17 @@ Each config block is loaded lazily — if you don't enable `react`, none of its 
 
 ### What's included per block
 
-| Block             | Globals                    | Rules                                              |
-| ----------------- | -------------------------- | -------------------------------------------------- |
-| `browser`         | `window`, `document`, etc. | Base JS + import + prettier + unicorn              |
-| `node`            | `process`, `Buffer`, etc.  | Base JS + import + prettier + unicorn              |
-| `typescript`      | —                          | `typescript-eslint` strict + stylistic, type-aware |
-| `react`           | —                          | `@eslint-react`, `react-hooks`, `jsx-a11y`         |
-| `next`            | —                          | `@next/eslint-plugin-next`                         |
-| `playwright`      | —                          | `eslint-plugin-playwright`                         |
-| `pasikaApp`       | —                          | Pasika rules for a plain TypeScript repository     |
-| `pasikaNextjsApp` | —                          | Pasika rules for a Next.js application             |
+| Block             | Globals                          | Rules                                              |
+| ----------------- | -------------------------------- | -------------------------------------------------- |
+| `browser`         | `window`, `document`, etc.       | Base JS + import + prettier + unicorn              |
+| `node`            | `process`, `Buffer`, etc.        | Base JS + import + prettier + unicorn              |
+| `typescript`      | —                                | `typescript-eslint` strict + stylistic, type-aware |
+| `react`           | —                                | `@eslint-react`, `react-hooks`, `jsx-a11y`         |
+| `next`            | —                                | `@next/eslint-plugin-next`                         |
+| `playwright`      | —                                | `eslint-plugin-playwright`                         |
+| `vitest`          | `describe`, `it`, `expect`, etc. | `@vitest/eslint-plugin` recommended                |
+| `pasikaApp`       | —                                | Pasika rules for a plain TypeScript repository     |
+| `pasikaNextjsApp` | —                                | Pasika rules for a Next.js application             |
 
 Base rules (always included with any block): `@eslint/js` recommended, `@eslint-community/eslint-plugin-eslint-comments`, `eslint-plugin-unicorn`, and the hand-written best-practice, ES6, possible-errors, stylistic, and variables rule sets.
 
@@ -56,7 +57,9 @@ Enabling a pasika preset wires four language-scoped rule sets (see the pasika RE
 | `**/*.md` (not `_templates/`)              | `pasika/*` Markdown rules |
 | `package.json`                             | `pasika/*` JSON rules     |
 
-`pasikaApp` is the baseline preset for a plain TypeScript repository — the package.json manifest rules, the zirka configuration contract, and the docs. It carries no `src/**` block: source linting belongs to `pasikaNextjsApp`, which is everything in `pasikaApp` plus the Next.js-stack manifest requirement, the `src/**` app source rules, and the Tailwind stylesheet rules. The JS/TS base blocks (browser, node, typescript, react, next, playwright) are scoped to JS/TS files, so the pasika language blocks are never shadowed — CSS, Markdown, and JSON files are linted by their own rules.
+`pasikaApp` is the baseline preset for a plain TypeScript repository — the package.json manifest rules, the zirka configuration contract, and the docs. It carries no `src/**` block: source linting belongs to `pasikaNextjsApp`, which is everything in `pasikaApp` plus the Next.js-stack manifest requirement, the `src/**` app source rules, and the Tailwind stylesheet rules. The JS/TS base blocks (browser, node, typescript, react, next, playwright, vitest) are scoped to JS/TS files, so the pasika language blocks are never shadowed — CSS, Markdown, and JSON files are linted by their own rules.
+
+`playwright` and `vitest` are scoped to their own file globs (Playwright's convention is `*.spec.*`, plus `tests/`/`e2e/` folders; Vitest's is `*.test.*`) rather than every JS/TS file, so enabling both does not double-lint the same test file with two frameworks' rule sets.
 
 ### `RuleSeverity`
 
@@ -79,6 +82,7 @@ Enabling a pasika preset wires four language-scoped rule sets (see the pasika RE
 | `pasikaApp`         | `RuleSeverity`                   | Pasika rules for a plain TypeScript repository |
 | `pasikaNextjsApp`   | `RuleSeverity`                   | Pasika rules for a Next.js application         |
 | `playwright`        | `RuleSeverity`                   | Playwright test rules                          |
+| `vitest`            | `RuleSeverity`                   | Vitest test rules                              |
 | `ignores`           | `string[]`                       | Glob patterns to ignore                        |
 | `additionalConfigs` | `Linter.Config[]`                | Extra flat config entries appended last        |
 | `prettier`          | `true \| { tailwind?: boolean }` | Enable Prettier config                         |
