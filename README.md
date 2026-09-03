@@ -43,7 +43,7 @@ Each config block is loaded lazily — if you don't enable `react`, none of its 
 | `pasikaApp`       | —                          | Pasika rules for a plain TypeScript repository     |
 | `pasikaNextjsApp` | —                          | Pasika rules for a Next.js application             |
 
-Base rules (always included with any block): `@eslint/js` recommended, `@eslint-community/eslint-plugin-eslint-comments`, `eslint-plugin-unicorn`, and the hand-written best-practice, ES6, possible-errors, stylistic, and variables rule sets.
+Base rules (always included with any block): `@eslint/js` recommended, `@eslint-community/eslint-plugin-eslint-comments`, `eslint-plugin-unicorn`, the hand-written best-practice, ES6, possible-errors, stylistic, and variables rule sets, and `eslint-plugin-prettier` (with `eslint-config-prettier` disabling any ESLint stylistic rule that would fight it) — so `eslint --fix` also reformats JS/TS files against whatever `prettier.config` the repository resolves.
 
 ### The pasika presets (`pasikaApp` / `pasikaNextjsApp`)
 

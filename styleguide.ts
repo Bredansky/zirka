@@ -121,8 +121,7 @@ interface StyleguideResult {
 export function styleguide(options: StyleguideOptions): StyleguideResult {
   const { browser, node, typescript, react, next, pasikaApp, pasikaNextjsApp, playwright, prettier } = options;
 
-  const hasEslintOptions =
-    browser ?? node ?? typescript ?? react ?? next ?? pasikaApp ?? pasikaNextjsApp ?? playwright;
+  const hasEslintOptions = browser ?? node ?? typescript ?? react ?? next ?? pasikaApp ?? pasikaNextjsApp ?? playwright;
   const prettierConfig = prettier ? getPrettierConfig(prettier) : undefined;
 
   if (!hasEslintOptions) {
