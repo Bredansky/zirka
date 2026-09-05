@@ -69,19 +69,19 @@ Enabling a pasika preset wires four language-scoped rule sets (see the pasika RE
 
 ### Options
 
-| Option              | Type                             | Description                                    |
-| ------------------- | -------------------------------- | ---------------------------------------------- |
-| `browser`           | `RuleSeverity`                   | Browser globals                                |
-| `node`              | `RuleSeverity`                   | Node.js globals                                |
-| `typescript`        | `RuleSeverity`                   | TypeScript-ESLint strict rules                 |
-| `react`             | `RuleSeverity`                   | React + JSX-a11y rules                         |
-| `next`              | `RuleSeverity`                   | Next.js rules                                  |
-| `pasikaApp`         | `RuleSeverity`                   | Pasika rules for a plain TypeScript repository |
-| `pasikaNextjsApp`   | `RuleSeverity`                   | Pasika rules for a Next.js application         |
-| `playwright`        | `RuleSeverity`                   | Playwright test rules                          |
-| `ignores`           | `string[]`                       | Glob patterns to ignore                        |
-| `additionalConfigs` | `Linter.Config[]`                | Extra flat config entries appended last        |
-| `prettier`          | `true \| { tailwind?: boolean }` | Enable Prettier config                         |
+| Option              | Type                                                          | Description                                    |
+| ------------------- | ------------------------------------------------------------- | ---------------------------------------------- |
+| `browser`           | `RuleSeverity`                                                | Browser globals                                |
+| `node`              | `RuleSeverity`                                                | Node.js globals                                |
+| `typescript`        | `RuleSeverity`                                                | TypeScript-ESLint strict rules                 |
+| `react`             | `RuleSeverity`                                                | React + JSX-a11y rules                         |
+| `next`              | `RuleSeverity`                                                | Next.js rules                                  |
+| `pasikaApp`         | `RuleSeverity`                                                | Pasika rules for a plain TypeScript repository |
+| `pasikaNextjsApp`   | `RuleSeverity`                                                | Pasika rules for a Next.js application         |
+| `playwright`        | `RuleSeverity \| { files: string[]; severity: RuleSeverity }` | Playwright test rules and optional file scope  |
+| `ignores`           | `string[]`                                                    | Glob patterns to ignore                        |
+| `additionalConfigs` | `Linter.Config[]`                                             | Extra flat config entries appended last        |
+| `prettier`          | `true \| { tailwind?: boolean }`                              | Enable Prettier config                         |
 
 ---
 

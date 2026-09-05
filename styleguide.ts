@@ -14,6 +14,11 @@ interface PrettierOptions {
   tailwind?: boolean;
 }
 
+interface PlaywrightOptions {
+  files: string[];
+  severity: RuleSeverity;
+}
+
 export interface StyleguideOptions {
   browser?: RuleSeverity;
   node?: RuleSeverity;
@@ -22,7 +27,7 @@ export interface StyleguideOptions {
   next?: RuleSeverity;
   pasikaApp?: RuleSeverity;
   pasikaNextjsApp?: RuleSeverity;
-  playwright?: RuleSeverity;
+  playwright?: PlaywrightOptions | RuleSeverity;
   ignores?: string[];
   additionalConfigs?: Linter.Config[];
   prettier?: PrettierOptions | true;
@@ -83,6 +88,9 @@ const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Con
     additionalConfigs = [],
   } = options;
 
+  const playwrightSeverity = typeof playwright === "string" ? playwright : playwright?.severity;
+  const playwrightFiles = typeof playwright === "string" ? undefined : playwright?.files;
+
   const configLoaders = [
     { loader: () => import("./eslint/browser").then((m) => m.browserConfig), severity: browser },
     { loader: () => import("./eslint/node").then((m) => m.nodeConfig), severity: node },
@@ -91,7 +99,10 @@ const loadEslintConfigs = async (options: StyleguideOptions): Promise<Linter.Con
     { loader: () => import("./eslint/next").then((m) => m.nextConfig), severity: next },
     { loader: () => loadPasikaConfigs("pasikaApp"), severity: pasikaApp, isPasika: true },
     { loader: () => loadPasikaConfigs("pasikaNextjsApp"), severity: pasikaNextjsApp, isPasika: true },
-    { loader: () => import("./eslint/playwright").then((m) => m.playwrightConfig), severity: playwright },
+    {
+      loader: () => import("./eslint/playwright").then((m) => m.createPlaywrightConfig(playwrightFiles)),
+      severity: playwrightSeverity,
+    },
   ];
 
   const eslintConfigs: Linter.Config[] = [];
