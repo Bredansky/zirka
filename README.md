@@ -2,21 +2,22 @@
 
 > зірка — _star_ in Ukrainian
 
-Shared ESLint, Prettier, and TypeScript config. Only the plugins you enable are imported — unused configs add zero overhead. `jiti` is bundled so TypeScript config files work out of the box.
+One `styleguide()` call returns your ESLint, Prettier, and TypeScript config. Every block loads lazily, so only the plugins you enable are ever imported.
 
 ---
 
-## Install
+## 📦 Install
 
 ```sh
 npm i -D zirka eslint prettier typescript
 ```
 
----
+Node ≥ 22. Peer versions: `eslint` ^10.9.1 · `prettier` ^3.5.3 · `typescript` >=5.8.3 <6.1.0.
 
-## ESLint — `eslint.config.ts`
+## ⚡ Quick start
 
 ```ts
+// eslint.config.ts
 import { RuleSeverity, styleguide } from "zirka";
 
 const { eslintConfig } = styleguide({
@@ -28,9 +29,30 @@ const { eslintConfig } = styleguide({
 export default eslintConfig;
 ```
 
-Each config block is loaded lazily — if you don't enable `react`, none of its plugins are imported.
+```js
+// prettier.config.js
+import { styleguide } from "zirka";
 
-### What's included per block
+const { prettierConfig } = styleguide({ prettier: true });
+
+export default prettierConfig;
+```
+
+```json
+// tsconfig.json
+{
+  "extends": "zirka/typescript",
+  "compilerOptions": { "module": "NodeNext", "moduleResolution": "NodeNext", "noEmit": true },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
+```
+
+`jiti` is bundled, so a TypeScript config file works with no setup.
+
+## ⚙️ ESLint
+
+Each block brings its own globals and rule sets, and is never imported unless you enable it:
 
 | Block             | Globals                    | Rules                                              |
 | ----------------- | -------------------------- | -------------------------------------------------- |
@@ -40,32 +62,21 @@ Each config block is loaded lazily — if you don't enable `react`, none of its 
 | `react`           | —                          | `@eslint-react`, `react-hooks`, `jsx-a11y`         |
 | `next`            | —                          | `@next/eslint-plugin-next`                         |
 | `playwright`      | —                          | `eslint-plugin-playwright`                         |
-| `pasikaApp`       | —                          | Pasika rules for a plain TypeScript repository     |
-| `pasikaNextjsApp` | —                          | Pasika rules for a Next.js application             |
+| `pasikaApp`       | —                          | Pasika's rules for a plain TypeScript repository   |
+| `pasikaNextjsApp` | —                          | Pasika's rules for a Next.js application           |
 
-Base rules (always included with any block): `@eslint/js` recommended, `@eslint-community/eslint-plugin-eslint-comments`, `eslint-plugin-unicorn`, the hand-written best-practice, ES6, possible-errors, stylistic, and variables rule sets, and `eslint-plugin-prettier` (with `eslint-config-prettier` disabling any ESLint stylistic rule that would fight it) — so `eslint --fix` also reformats JS/TS files against whatever `prettier.config` the repository resolves.
+The base rules come with every block: `@eslint/js` recommended, `eslint-plugin-eslint-comments`, `eslint-plugin-unicorn`, the hand-written best-practice / ES6 / possible-errors / stylistic / variables sets, and `eslint-plugin-prettier` with `eslint-config-prettier` disabling any stylistic rule that would fight it — so `eslint --fix` also reformats JS/TS against whatever `prettier.config` the repository resolves.
 
-### The pasika presets (`pasikaApp` / `pasikaNextjsApp`)
-
-Enabling a pasika preset wires four language-scoped rule sets (see the pasika README for the full rule tables):
+Enabling a pasika preset adds four language-scoped rule sets:
 
 | Files                                      | Rules                     |
 | ------------------------------------------ | ------------------------- |
 | `src/**/*.{js,jsx,ts,tsx,mjs,mts,cjs,cts}` | `pasika/*` TS/TSX rules   |
-| `src/**/globals.css`, `src/**/*.css`       | `pasika/*` CSS rules      |
+| `src/**/*.css`                             | `pasika/*` CSS rules      |
 | `**/*.md` (not `_templates/`)              | `pasika/*` Markdown rules |
 | `package.json`                             | `pasika/*` JSON rules     |
 
-`pasikaApp` is the baseline preset for a plain TypeScript repository — the package.json manifest rules, the zirka configuration contract, and the docs. It carries no `src/**` block: source linting belongs to `pasikaNextjsApp`, which is everything in `pasikaApp` plus the Next.js-stack manifest requirement, the `src/**` app source rules, and the Tailwind stylesheet rules. The JS/TS base blocks (browser, node, typescript, react, next, playwright) are scoped to JS/TS files, so the pasika language blocks are never shadowed — CSS, Markdown, and JSON files are linted by their own rules.
-
-### `RuleSeverity`
-
-| Value       | Behaviour                                        |
-| ----------- | ------------------------------------------------ |
-| `"error"`   | All rules set to `error`                         |
-| `"warn"`    | All rules set to `warn`                          |
-| `"default"` | Rules use their recommended severity as-is       |
-| `"off"`     | Config block skipped entirely — nothing imported |
+`pasikaApp` is the baseline — manifest, zirka contract, docs — and carries no `src/**` block; `pasikaNextjsApp` is everything in it plus the Next.js-stack manifest requirement, the source rules, and the Tailwind stylesheet rules. The JS/TS base blocks are scoped to JS/TS files, so a CSS, Markdown, or JSON file is always linted by its own rules.
 
 ### Options
 
@@ -78,71 +89,49 @@ Enabling a pasika preset wires four language-scoped rule sets (see the pasika RE
 | `next`              | `RuleSeverity`                                                | Next.js rules                                  |
 | `pasikaApp`         | `RuleSeverity`                                                | Pasika rules for a plain TypeScript repository |
 | `pasikaNextjsApp`   | `RuleSeverity`                                                | Pasika rules for a Next.js application         |
-| `playwright`        | `RuleSeverity \| { files: string[]; severity: RuleSeverity }` | Playwright test rules and optional file scope  |
+| `playwright`        | `RuleSeverity \| { files: string[]; severity: RuleSeverity }` | Playwright rules and optional file scope       |
 | `ignores`           | `string[]`                                                    | Glob patterns to ignore                        |
-| `additionalConfigs` | `Linter.Config[]`                                             | Extra flat config entries appended last        |
-| `prettier`          | `true \| { tailwind?: boolean }`                              | Enable Prettier config                         |
+| `additionalConfigs` | `Linter.Config[]`                                             | Extra flat config entries, appended last       |
+| `prettier`          | `true \| { tailwind?: boolean }`                              | Enable the Prettier config                     |
 
----
+### `RuleSeverity`
 
-## Prettier — `prettier.config.js`
+| Value       | Behaviour                                        |
+| ----------- | ------------------------------------------------ |
+| `"error"`   | All rules set to `error`                         |
+| `"warn"`    | All rules set to `warn`                          |
+| `"default"` | Rules keep their recommended severity            |
+| `"off"`     | Config block skipped entirely — nothing imported |
 
-```js
-import { styleguide } from "zirka";
-
-const { prettierConfig } = styleguide({
-  prettier: true,
-});
-
-export default prettierConfig;
-```
-
-With Tailwind class sorting:
+## 💅 Prettier
 
 ```js
-const { prettierConfig } = styleguide({
-  prettier: { tailwind: true },
-});
+const { prettierConfig } = styleguide({ prettier: { tailwind: true } });
 ```
 
-Includes `prettier-plugin-packagejson` by default.
+`prettier: true` is the plain config; the `tailwind` option adds `prettier-plugin-tailwindcss`. `prettier-plugin-packagejson` is included either way.
 
----
+## 🧩 TypeScript
 
-## TypeScript — `tsconfig.json`
+`zirka/typescript` sets strictness only — no environment-specific settings — so you extend it and add your own `module`, `lib`, `target`. The base flags are in [`typescript/base.json`](https://github.com/Bredansky/zirka/blob/main/typescript/base.json).
 
-The base config only sets strictness flags — no environment-specific settings. Extend it and add your own `module`, `lib`, `target`, etc.:
+## 📚 Documentation
 
-```json
-{
-  "extends": "zirka/typescript",
-  "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "noEmit": true
-  },
-  "include": ["**/*.ts"],
-  "exclude": ["node_modules", "dist"]
-}
-```
+| What                          | Where                                                                                                                          |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| The `styleguide()` factory    | [`styleguide.ts`](https://github.com/Bredansky/zirka/blob/main/styleguide.ts)                                                  |
+| One file per ESLint block     | [`eslint/`](https://github.com/Bredansky/zirka/tree/main/eslint)                                                               |
+| The Prettier config           | [`prettier-config/`](https://github.com/Bredansky/zirka/tree/main/prettier-config)                                             |
+| What `pasika/*` rules require | the [Pasika Adoption Guide](https://github.com/Bredansky/pasika/blob/main/docs/pasika-adoption-guide/pasika-adoption-guide.md) |
 
-### What's in the base
+## 🐝 Sibling packages
 
-```json
-{
-  "strict": true,
-  "esModuleInterop": true,
-  "skipLibCheck": true,
-  "forceConsistentCasingInFileNames": true,
-  "noFallthroughCasesInSwitch": true,
-  "noUncheckedIndexedAccess": true,
-  "resolveJsonModule": true
-}
-```
+| Package                                       | What it does                                                                         |
+| --------------------------------------------- | ------------------------------------------------------------------------------------ |
+| [vulyk](https://github.com/Bredansky/vulyk)   | Installs skills and tracked docs from pinned sources, and generates agent files      |
+| [pasika](https://github.com/Bredansky/pasika) | The documentation, the rules derived from it, and the helpers                        |
+| **zirka**                                     | Wires ESLint, Prettier, and TypeScript into one `styleguide()` config — this package |
 
----
+## 📄 License
 
-## Requirements
-
-- Node ≥ 22
-- `eslint` ^10.9.1 · `prettier` ^3 · `typescript` ^5 (peer deps)
+ISC
