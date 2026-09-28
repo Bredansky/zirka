@@ -1,5 +1,5 @@
-import tseslint from "typescript-eslint";
 import { defineConfig } from "eslint/config";
+import tseslint from "typescript-eslint";
 import { typescriptImportRules } from "./rules/typescript/import";
 import { typescriptRules } from "./rules/typescript/index";
 import { JAVASCRIPT_FILES, TYPESCRIPT_FILES } from "./utils/constants";

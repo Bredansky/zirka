@@ -1,5 +1,5 @@
-import { defineConfig } from "eslint/config";
 import type { Linter } from "eslint";
+import { defineConfig } from "eslint/config";
 import playwrightPlugin from "eslint-plugin-playwright";
 
 const DEFAULT_PLAYWRIGHT_FILES = [

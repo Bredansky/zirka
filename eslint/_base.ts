@@ -2,19 +2,21 @@ import eslintJavascriptPlugin from "@eslint/js";
 import { defineConfig } from "eslint/config";
 import eslintConfigPrettier from "eslint-config-prettier";
 import prettierPlugin from "eslint-plugin-prettier";
-import { ECMA_VERSION } from "./utils/constants";
 import { bestPracticeRules } from "./rules/best-practice";
+import { commentsConfig } from "./rules/comments";
 import { es6Rules } from "./rules/es6";
+import { importOrderConfig } from "./rules/import";
 import { possibleErrorsRules } from "./rules/possible-errors";
 import { stylisticRules } from "./rules/stylistic";
-import { commentsConfig } from "./rules/comments";
 import { unicornConfig } from "./rules/unicorn";
 import { variablesRules } from "./rules/variables";
+import { ECMA_VERSION } from "./utils/constants";
 
 export const baseConfig = defineConfig([
   eslintJavascriptPlugin.configs.recommended,
   commentsConfig,
   unicornConfig,
+  importOrderConfig,
   {
     rules: {
       ...bestPracticeRules,
