@@ -1,7 +1,7 @@
-import { defineConfig } from "eslint/config";
 import nextPlugin from "@next/eslint-plugin-next";
-import { JAVASCRIPT_FILES } from "./utils/constants";
+import { defineConfig } from "eslint/config";
 import { nextImportRules } from "./rules/next/imports";
+import { JAVASCRIPT_FILES } from "./utils/constants";
 
 // Dynamically determine Babel presets for Next.js projects.
 // This allows the configuration to work whether 'next/babel' is available or not,

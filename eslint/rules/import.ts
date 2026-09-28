@@ -1,4 +1,22 @@
 import { type Linter } from "eslint";
+import importX from "eslint-plugin-import-x";
+
+export const importOrderRule: Linter.RuleEntry = [
+  "warn",
+  {
+    groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
+    pathGroups: [{ pattern: "@/**", group: "internal", position: "after" }],
+    pathGroupsExcludedImportTypes: ["builtin", "external"],
+    "newlines-between": "never",
+    distinctGroup: false,
+    alphabetize: { order: "asc", caseInsensitive: true },
+  },
+];
+
+export const importOrderConfig: Linter.Config = {
+  plugins: { "import-x": importX },
+  rules: { "import-x/order": importOrderRule },
+};
 
 export const importRules: Linter.RulesRecord = {
   /**
@@ -73,23 +91,10 @@ export const importRules: Linter.RulesRecord = {
 
   /**
    * Enforce a module import order convention.
-   * 🔧 Fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md
+   * 🔧 Fixable - https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/order.md
    * Source: Vercel Style Guide → https://github.com/vercel/style-guide
    */
-  "import/order": [
-    "warn",
-    {
-      groups: [
-        "builtin", // Node.js built-in modules
-        "external", // Packages
-        "internal", // Aliased modules
-        "parent", // Relative parent
-        "sibling", // Relative sibling
-        "index", // Relative index
-      ],
-      "newlines-between": "never",
-    },
-  ],
+  "import/order": importOrderRule,
 };
 
 /**

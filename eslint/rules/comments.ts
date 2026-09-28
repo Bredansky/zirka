@@ -1,5 +1,5 @@
-import { defineConfig } from "eslint/config";
 import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
+import { defineConfig } from "eslint/config";
 
 export const commentsConfig = defineConfig([
   comments.recommended,

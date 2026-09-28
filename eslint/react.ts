@@ -1,5 +1,5 @@
-import { defineConfig } from "eslint/config";
 import react from "@eslint-react/eslint-plugin";
+import { defineConfig } from "eslint/config";
 import { JAVASCRIPT_FILES, TYPESCRIPT_FILES } from "./utils/constants";
 
 // ESLint config for React projects with TypeScript + JSX a11y + hooks best practices

@@ -1,7 +1,7 @@
 import type { Linter } from "eslint";
 import type { Options } from "prettier";
-import { getPrettierConfig } from "./prettier-config";
 import { JAVASCRIPT_FILES, TYPESCRIPT_FILES } from "./eslint/utils/constants";
+import { getPrettierConfig } from "./prettier-config";
 
 export enum RuleSeverity {
   Off = "off",
