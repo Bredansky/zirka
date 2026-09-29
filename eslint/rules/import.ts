@@ -5,11 +5,15 @@ export const importOrderRule: Linter.RuleEntry = [
   "warn",
   {
     groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
-    pathGroups: [{ pattern: "@/**", group: "internal", position: "after" }],
+    pathGroups: [
+      { pattern: "@/**", group: "internal", position: "after" },
+      { pattern: "**/*.{css,less,sass,scss,styl,stylus}", group: "index", position: "after" },
+    ],
     pathGroupsExcludedImportTypes: ["builtin", "external"],
     "newlines-between": "never",
     distinctGroup: false,
     alphabetize: { order: "asc", caseInsensitive: true },
+    warnOnUnassignedImports: true,
   },
 ];
 
