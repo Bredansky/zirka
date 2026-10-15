@@ -6,6 +6,11 @@ on:
       - main
   pull_request:
 
+# Repeated commits to one PR/branch supersede earlier CI runs.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   check:
     runs-on: ubuntu-latest
