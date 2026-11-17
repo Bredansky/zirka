@@ -18,7 +18,6 @@ export default defineConfig({
   external: [
     "globals",
     "@eslint/js",
-    "eslint-plugin-import-x",
     "eslint-plugin-prettier",
     "@eslint-community/eslint-plugin-eslint-comments",
     "@eslint-react/eslint-plugin",
