@@ -5,7 +5,6 @@ import prettierPlugin from "eslint-plugin-prettier";
 import { bestPracticeRules } from "./rules/best-practice";
 import { commentsConfig } from "./rules/comments";
 import { es6Rules } from "./rules/es6";
-import { importOrderConfig } from "./rules/import";
 import { possibleErrorsRules } from "./rules/possible-errors";
 import { stylisticRules } from "./rules/stylistic";
 import { unicornConfig } from "./rules/unicorn";
@@ -16,7 +15,6 @@ export const baseConfig = defineConfig([
   eslintJavascriptPlugin.configs.recommended,
   commentsConfig,
   unicornConfig,
-  importOrderConfig,
   {
     rules: {
       ...bestPracticeRules,
